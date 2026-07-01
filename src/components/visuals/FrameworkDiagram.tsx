@@ -1,15 +1,19 @@
 import { motion } from "motion/react";
-import { Server, Store, Laptop } from "lucide-react";
+import { Server, Store } from "lucide-react";
 
-export function FrameworkDiagram() {
-  const brands = [
-    { name: "Greyson Clothiers", color: "bg-surface-dark" },
-    { name: "UTZ Snacks", color: "bg-accent-indigo" },
-    { name: "Great Garden", color: "bg-ink-light" }
-  ];
+type Brand = {
+  name: string;
+  color: string;
+};
 
-  return (
-    <div className="relative w-full py-16 flex flex-col items-center">
+const brands: Brand[] = [
+  { name: "Greyson Clothiers", color: "bg-surface-dark" },
+  { name: "UTZ Snacks", color: "bg-accent-indigo" },
+  { name: "Great Garden", color: "bg-ink-light" }
+];
+
+export const FrameworkDiagram = () => (
+  <div className="relative w-full py-16 flex flex-col items-center">
       {/* Core Framework Node */}
       <motion.div 
         className="bg-accent-cyan p-8 rounded-[2rem] shadow-xl z-10 border-4 border-surface-dark flex flex-col items-center gap-4 w-64"
@@ -80,6 +84,5 @@ export function FrameworkDiagram() {
           </motion.div>
         ))}
       </div>
-    </div>
-  );
-}
+  </div>
+);

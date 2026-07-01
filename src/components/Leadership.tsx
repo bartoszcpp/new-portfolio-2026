@@ -1,33 +1,41 @@
 import { motion } from "motion/react";
-import { GitMerge, Users, Lightbulb, Zap, Code2, Network } from "lucide-react";
+import { GitMerge, Users, Zap, Code2, Network } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
-export function Leadership() {
-  const philosophies = [
-    {
-      icon: Zap,
-      title: "Pragmatic Architecture",
-      desc: "Focusing on business value over theoretical perfection. Clean code is a means to an end—scalable, maintainable, and highly performant user experiences.",
-      color: "text-accent-cyan",
-      bg: "bg-accent-cyan/10"
-    },
-    {
-      icon: Network,
-      title: "Knowledge Amplification",
-      desc: "Code reviews aren't just quality gates; they are the primary vehicle for engineering growth. I prioritize proactive refactoring and cross-pollination of skills.",
-      color: "text-accent-indigo",
-      bg: "bg-accent-indigo/10"
-    },
-    {
-      icon: Code2,
-      title: "AI-Augmented Execution",
-      desc: "Pioneering modern workflows by integrating LLMs, Cursor, and Copilot natively into our processes, drastically reducing boilerplate and accelerating delivery.",
-      color: "text-accent-violet",
-      bg: "bg-accent-violet/10"
-    }
-  ];
+type Philosophy = {
+  icon: LucideIcon;
+  title: string;
+  desc: string;
+  color: string;
+  bg: string;
+};
 
-  return (
-    <section className="bg-surface-dark py-32 px-6 lg:px-12 relative overflow-hidden">
+const philosophies: Philosophy[] = [
+  {
+    icon: Zap,
+    title: "Pragmatic Architecture",
+    desc: "Focusing on business value over theoretical perfection. Clean code is a means to an end—scalable, maintainable, and highly performant user experiences.",
+    color: "text-accent-cyan",
+    bg: "bg-accent-cyan/10"
+  },
+  {
+    icon: Network,
+    title: "Knowledge Amplification",
+    desc: "Code reviews aren't just quality gates; they are the primary vehicle for engineering growth. I prioritize proactive refactoring and cross-pollination of skills.",
+    color: "text-accent-indigo",
+    bg: "bg-accent-indigo/10"
+  },
+  {
+    icon: Code2,
+    title: "AI-Augmented Execution",
+    desc: "Pioneering modern workflows by integrating LLMs, Cursor, and Copilot natively into our processes, drastically reducing boilerplate and accelerating delivery.",
+    color: "text-accent-violet",
+    bg: "bg-accent-violet/10"
+  }
+];
+
+export const Leadership = () => (
+  <section className="bg-surface-dark py-32 px-6 lg:px-12 relative overflow-hidden">
       {/* Organic Background Shapes */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <motion.div 
@@ -122,6 +130,5 @@ export function Leadership() {
         </div>
 
       </div>
-    </section>
-  );
-}
+  </section>
+);

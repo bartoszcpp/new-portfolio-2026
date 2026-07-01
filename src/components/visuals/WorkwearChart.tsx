@@ -1,9 +1,7 @@
 import { motion } from "motion/react";
 
-export function WorkwearChart() {
-  // A custom animated chart showing Development Time vs AI Integration
-  return (
-    <div className="w-full h-64 flex items-end justify-between gap-4 mt-8 relative px-4">
+export const WorkwearChart = () => (
+  <div className="w-full h-64 flex items-end justify-between gap-4 mt-8 relative px-4">
       <div className="absolute inset-0 flex flex-col justify-between py-4 z-0">
         {[...Array(4)].map((_, i) => (
           <div key={i} className="w-full border-t-2 border-ink/10 border-dashed" />
@@ -48,6 +46,5 @@ export function WorkwearChart() {
       >
         60% Faster Delivery!
       </motion.div>
-    </div>
-  );
-}
+  </div>
+);

@@ -1,8 +1,35 @@
 import { useRef } from "react";
 import { motion, useScroll, useSpring } from "motion/react";
 import { BriefcaseBusiness, Code2, Palette, Rocket } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
-const milestones = [
+type AccentName = "accent-cyan" | "accent-indigo" | "accent-violet";
+type MilestoneSide = "left" | "right";
+
+type Milestone = {
+  period: string;
+  role: string;
+  company: string;
+  description: string;
+  tags: readonly string[];
+  icon: LucideIcon;
+  accent: AccentName;
+  side: MilestoneSide;
+};
+
+type AccentClassSet = {
+  text: string;
+  bg: string;
+  border: string;
+  glow: string;
+};
+
+type TagProps = {
+  key?: string;
+  label: string;
+};
+
+const milestones: Milestone[] = [
   {
     period: "12.2020 - Present",
     role: "Senior Software Engineer",
@@ -47,9 +74,9 @@ const milestones = [
     accent: "accent-violet",
     side: "left",
   },
-] as const;
+];
 
-const accentClasses = {
+const accentClasses: Record<AccentName, AccentClassSet> = {
   "accent-cyan": {
     text: "text-accent-cyan",
     bg: "bg-accent-cyan",
@@ -70,13 +97,13 @@ const accentClasses = {
   },
 };
 
-const Tag = ({ label }: { label: string; key?: string }) => (
+const Tag = ({ label }: TagProps) => (
   <span className="rounded-full border border-ink/10 bg-ink/5 px-3 py-1 text-xs font-bold text-ink-light">
     {label}
   </span>
 );
 
-export function Journey() {
+export const Journey = () => {
   const timelineRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: timelineRef,
@@ -179,4 +206,4 @@ export function Journey() {
       </div>
     </section>
   );
-}
+};

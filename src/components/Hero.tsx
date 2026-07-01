@@ -2,7 +2,7 @@ import { motion } from "motion/react";
 import { Code2, Database, Layout, Sparkles, Terminal } from "lucide-react";
 import portraitImage from "../../assets/bartosz-portrait.png";
 
-export function Hero() {
+export const Hero = () => {
   const icons = [
     { Icon: Layout, color: "text-accent-indigo", top: "10%", left: "10%", delay: 0 },
     { Icon: Database, color: "text-accent-cyan", top: "20%", left: "80%", delay: 0.2 },
@@ -98,4 +98,4 @@ export function Hero() {
       </div>
     </section>
   );
-}
+};

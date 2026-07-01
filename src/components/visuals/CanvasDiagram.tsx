@@ -1,9 +1,8 @@
 import { motion } from "motion/react";
 import { MonitorPlay, Sparkles, Network } from "lucide-react";
 
-export function CanvasDiagram() {
-  return (
-    <div className="w-full flex flex-col items-center py-12">
+export const CanvasDiagram = () => (
+  <div className="w-full flex flex-col items-center py-12">
       <div className="relative w-full max-w-3xl aspect-[16/9] bg-surface-dark rounded-[3rem] p-8 shadow-2xl flex flex-col justify-between overflow-hidden">
         
         {/* Abstract Canvas Background Particles */}
@@ -86,6 +85,5 @@ export function CanvasDiagram() {
           <p className="text-accent-cyan font-medium">60 FPS Sync across devices</p>
         </motion.div>
       </div>
-    </div>
-  );
-}
+  </div>
+);
