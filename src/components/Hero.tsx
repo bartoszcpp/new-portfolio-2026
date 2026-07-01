@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { Code2, Database, Layout, Sparkles, Terminal } from "lucide-react";
+import portraitImage from "../../assets/bartosz-portrait.png";
 
 export function Hero() {
   const icons = [
@@ -75,10 +76,10 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
         >
           {/* Creative Masked Image Placeholder */}
-          <div className="w-full aspect-[4/5] relative rounded-t-[12rem] rounded-b-[4rem] overflow-hidden border-8 border-base-alt shadow-2xl bg-accent-cyan">
+          <div className="w-full aspect-[4/5] relative rounded-t-[12rem] rounded-b-[4rem] overflow-hidden border-8 border-base-alt shadow-2xl">
             <div className="absolute inset-0 bg-ink opacity-10 mix-blend-multiply"></div>
             <img 
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+              src={portraitImage} 
               alt="Bartosz Ciąpała" 
               className="w-full h-full object-cover mix-blend-luminosity hover:mix-blend-normal transition-all duration-1000"
             />

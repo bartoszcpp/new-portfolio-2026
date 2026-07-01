@@ -1,9 +1,10 @@
 import { motion } from "motion/react";
+import type { ReactNode } from "react";
 import { WorkwearChart } from "./visuals/WorkwearChart";
 import { FrameworkDiagram } from "./visuals/FrameworkDiagram";
 import { CanvasDiagram } from "./visuals/CanvasDiagram";
 
-const Badge = ({ children }: { children: React.ReactNode }) => (
+const Badge = ({ children }: { children: ReactNode }) => (
   <span className="px-4 py-2 bg-surface-dark rounded-full text-ink font-bold text-sm shadow-sm border-2 border-ink/10">
     {children}
   </span>
