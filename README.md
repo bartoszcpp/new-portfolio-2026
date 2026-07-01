@@ -37,7 +37,7 @@ The codebase is intentionally small and component-focused, with each page sectio
 │   │   └── visuals/
 │   │       ├── CanvasDiagram.tsx
 │   │       ├── FrameworkDiagram.tsx
-│   │       └── WorkwearChart.tsx
+│   │       └── WorkwearImpact.tsx
 │   ├── App.tsx
 │   ├── index.css
 │   ├── main.tsx

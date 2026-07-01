@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import type { ReactNode } from "react";
-import { WorkwearChart } from "./visuals/WorkwearChart";
+import { WorkwearImpact } from "./visuals/WorkwearImpact";
 import { FrameworkDiagram } from "./visuals/FrameworkDiagram";
 import { CanvasDiagram } from "./visuals/CanvasDiagram";
 
@@ -24,32 +24,39 @@ export const Projects = () => (
       <div className="flex-1 space-y-8">
         <div className="space-y-4">
           <h2 className="text-4xl md:text-5xl font-display font-bold text-ink leading-tight">
-            Global Workwear <br/>
+            Workwear Express <br/>
             <span className="text-accent-indigo">E-commerce Portal</span>
           </h2>
           <div className="flex flex-wrap gap-3">
             <Badge>React</Badge>
             <Badge>RxJS</Badge>
             <Badge>Magento</Badge>
+            <Badge>B2B Portal</Badge>
             <Badge>AI Agents</Badge>
           </div>
         </div>
           
         <div className="space-y-6 text-lg text-ink-light font-medium leading-relaxed">
           <p>
-            Managing a massive, high-traffic global sales system requires more than just maintaining code—it demands constant, proactive evolution. As the primary platform grew, standard development cycles began to bottleneck feature releases.
+            Workwear Express is a UK-based workwear e-commerce company with a mature, high-impact sales platform. This became my most important long-term project, where I had the biggest influence on both product development and engineering standards.
           </p>
           <p>
-            We completely revolutionized our approach by building a dedicated B2B portal for enterprise clients from scratch. The true breakthrough wasn't just the architecture, but the integration of AI assistants into our daily development workflow.
+            I worked on the ongoing development of the core React, RxJS and Magento sales system, delivering new business features from client requirements and proactive team initiatives. These improvements directly supported the company's commercial growth and day-to-day sales operations.
           </p>
           <p>
-            By leveraging advanced LLMs for boilerplate generation, test coverage, and complex RxJS stream debugging, we drastically compressed the delivery timeline. What traditionally took months was deployed in weeks, resulting in an immediate and measurable surge in global sales.
+            I also delivered a dedicated B2B portal from scratch as a separate client request. By integrating AI assistants into the development workflow, the team was able to respond quickly to new business needs while keeping the implementation maintainable.
+          </p>
+          <p>
+            My role evolved with the project: early on I received detailed code reviews from senior engineers, and over time I became the person reviewing others' work, helping the team keep quality high while the platform, company, and sales operation continued to grow.
           </p>
         </div>
       </div>
       <div className="flex-1 w-full bg-base-alt p-8 rounded-[3rem] shadow-xl border-4 border-base relative overflow-hidden">
-        <h3 className="font-display font-bold text-ink text-2xl mb-4">Delivery Velocity Impact</h3>
-        <WorkwearChart />
+        <h3 className="font-display font-bold text-ink text-2xl mb-2">Long-Term Product Ownership</h3>
+        <p className="text-ink-light/70 font-medium">
+          A qualitative view of the areas where I contributed most.
+        </p>
+        <WorkwearImpact />
       </div>
     </motion.div>
 
