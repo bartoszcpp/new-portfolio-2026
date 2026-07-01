@@ -33,7 +33,7 @@ const milestones: Milestone[] = [
   {
     period: "12.2020 - Present",
     role: "Senior Software Engineer",
-    company: "Global E-Commerce Agency",
+    company: "Sofomo",
     description:
       "Leading the development of complex web applications and B2B/B2C e-commerce platforms. Driving technical standards, performing code reviews, and mentoring teams while integrating AI tools into the daily workflow.",
     tags: ["React", "Next.js", "Node.js", "AI Tools"],
@@ -42,9 +42,9 @@ const milestones: Milestone[] = [
     side: "right",
   },
   {
-    period: "01.2019 - 11.2020",
+    period: "06.2020 - 09.2020",
     role: "Front-End Developer",
-    company: "Creative Digital Studio",
+    company: "KMB Studio",
     description:
       "Implemented pixel-perfect landing pages and web apps, integrated CMS solutions and APIs, and focused on performance optimization and SEO.",
     tags: ["React", "Gatsby", "CMS", "SEO"],
@@ -53,9 +53,9 @@ const milestones: Milestone[] = [
     side: "left",
   },
   {
-    period: "07.2018 - 12.2018",
+    period: "07.2018 - 06.2020",
     role: "Full-Stack Developer",
-    company: "Independent Consultant",
+    company: "Freelancer",
     description:
       "Designed and built custom web solutions from the ground up for individual clients and small businesses, handling both frontend and backend architecture.",
     tags: ["Frontend", "Backend", "API Integration"],
@@ -64,9 +64,9 @@ const milestones: Milestone[] = [
     side: "right",
   },
   {
-    period: "03.2017 - 06.2018",
+    period: "05.2017 - 08.2017",
     role: "Graphic & UI Designer",
-    company: "Marketing Agency",
+    company: "Profit Plus",
     description:
       "Crafted high-end marketing and advertising materials, establishing a strong foundation in visual design, typography, and pixel-perfect layouts.",
     tags: ["Adobe Photoshop", "Print & Digital Design"],
