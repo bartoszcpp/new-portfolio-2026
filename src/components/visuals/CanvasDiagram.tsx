@@ -1,89 +1,97 @@
-import { motion } from "motion/react";
-import { MonitorPlay, Sparkles, Network } from "lucide-react";
+import { useRef, useState } from "react";
+import { motion, useInView } from "motion/react";
+import { Network, Sparkles, Volume2, VolumeX } from "lucide-react";
+import videriDemoVideo from "../../../assets/videri-demo.mp4";
 
-export const CanvasDiagram = () => (
-  <div className="w-full flex flex-col items-center py-12">
-      <div className="relative w-full max-w-3xl aspect-[16/9] bg-surface-dark rounded-[3rem] p-8 shadow-2xl flex flex-col justify-between overflow-hidden">
-        
-        {/* Abstract Canvas Background Particles */}
-        <div className="absolute inset-0 opacity-20">
-          {[...Array(10)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-16 h-16 bg-accent-indigo rounded-full blur-xl"
-              style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                x: [0, Math.random() * 100 - 50, 0],
-                y: [0, Math.random() * 100 - 50, 0],
-              }}
-              transition={{
-                duration: 10 + Math.random() * 10,
-                repeat: Infinity,
-                ease: "linear"
-              }}
-            />
-          ))}
-        </div>
+export const CanvasDiagram = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const shouldLoadVideo = useInView(containerRef, { once: true, margin: "300px" });
+  const [isMuted, setIsMuted] = useState(true);
 
-        <div className="flex justify-between items-start z-10">
-          <motion.div 
-            className="bg-ink/10 backdrop-blur-md p-4 rounded-3xl text-ink flex items-center gap-3"
-            initial={{ x: -50, opacity: 0 }}
+  const handleSoundToggle = () => {
+    const nextMutedState = !isMuted;
+    setIsMuted(nextMutedState);
+
+    if (videoRef.current) {
+      videoRef.current.muted = nextMutedState;
+      void videoRef.current.play();
+    }
+  };
+
+  return (
+    <div ref={containerRef} className="w-full flex flex-col items-center py-12">
+      <div className="relative w-full max-w-3xl bg-surface-dark rounded-[3rem] p-5 shadow-2xl overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(139,92,246,0.22),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(6,182,212,0.18),transparent_36%)]" />
+
+        <div className="relative z-10 mb-4 flex flex-wrap items-center justify-between gap-3">
+          <motion.div
+            className="bg-ink/10 backdrop-blur-md px-4 py-3 rounded-3xl text-ink flex items-center gap-3"
+            initial={{ x: -30, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true }}
           >
-            <Network className="text-accent-cyan" />
+            <Network className="text-accent-cyan" size={20} />
             <span className="font-bold">Socket.io Events</span>
           </motion.div>
-          <motion.div 
-            className="bg-ink/10 backdrop-blur-md p-4 rounded-3xl text-ink flex items-center gap-3"
-            initial={{ x: 50, opacity: 0 }}
+          <motion.div
+            className="bg-ink/10 backdrop-blur-md px-4 py-3 rounded-3xl text-ink flex items-center gap-3"
+            initial={{ x: 30, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true }}
           >
-            <Sparkles className="text-accent-indigo" />
-            <span className="font-bold">Real-time Render</span>
+            <Sparkles className="text-accent-violet" size={20} />
+            <span className="font-bold">Live Demo</span>
           </motion.div>
         </div>
 
-        <div className="self-center z-10 relative">
-          <motion.div
-            className="w-48 h-48 border-8 border-accent-cyan rounded-full flex items-center justify-center relative overflow-hidden"
-            initial={{ scale: 0.5, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ type: "spring", bounce: 0.5 }}
-          >
-            <MonitorPlay size={64} className="text-ink" />
-            <motion.div 
-              className="absolute inset-0 bg-accent-indigo mix-blend-overlay"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-              style={{ transformOrigin: "center center", clipPath: "polygon(50% 50%, 100% 0, 100% 100%)" }}
-            />
-          </motion.div>
-          
-          {/* Pulsing ring */}
-          <motion.div
-            className="absolute inset-0 border-4 border-accent-cyan rounded-full"
-            animate={{ scale: [1, 1.5], opacity: [1, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
+        <motion.div
+          className="relative z-10 overflow-hidden rounded-[2rem] border border-ink/10 bg-base"
+          initial={{ opacity: 0, scale: 0.96 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <video
+            ref={videoRef}
+            src={shouldLoadVideo ? videriDemoVideo : undefined}
+            className="aspect-video w-full bg-base object-cover"
+            autoPlay
+            loop
+            muted={isMuted}
+            playsInline
+            preload="metadata"
           />
-        </div>
 
-        <motion.div 
-          className="text-center z-10"
-          initial={{ y: 20, opacity: 0 }}
+          <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-4 bg-gradient-to-t from-surface-dark/95 via-surface-dark/70 to-transparent p-5 pt-14">
+            <div>
+              <h4 className="font-display text-2xl font-bold text-ink">HTML5 Canvas Engine</h4>
+              <p className="text-sm font-medium text-accent-cyan">Real-time synchronized presentation demo</p>
+            </div>
+            <motion.button
+              type="button"
+              onClick={handleSoundToggle}
+              className="flex shrink-0 items-center gap-2 rounded-full border border-ink/10 bg-ink/10 px-4 py-3 font-bold text-ink backdrop-blur-md transition-colors hover:bg-ink/20"
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              aria-label={isMuted ? "Turn demo sound on" : "Turn demo sound off"}
+            >
+              {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+              <span className="hidden sm:inline">{isMuted ? "Sound on" : "Sound off"}</span>
+            </motion.button>
+          </div>
+        </motion.div>
+
+        <motion.p
+          className="relative z-10 mt-4 text-center text-sm font-medium text-ink-light/70"
+          initial={{ y: 16, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
+          transition={{ delay: 0.3 }}
         >
-          <h4 className="text-2xl font-display font-bold text-ink">HTML5 Canvas Engine</h4>
-          <p className="text-accent-cyan font-medium">60 FPS Sync across devices</p>
-        </motion.div>
+          The video is lazy-loaded near this section to keep the portfolio fast.
+        </motion.p>
       </div>
-  </div>
-);
+    </div>
+  );
+};

@@ -27,7 +27,8 @@ The codebase is intentionally small and component-focused, with each page sectio
 ```text
 .
 ├── assets/
-│   └── bartosz-portrait.png
+│   ├── bartosz-portrait.png
+│   └── videri-demo.mp4
 ├── src/
 │   ├── components/
 │   │   ├── Hero.tsx

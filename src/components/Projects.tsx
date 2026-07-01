@@ -113,7 +113,7 @@ export const Projects = () => (
       <div className="flex-1 space-y-8">
         <div className="space-y-4">
           <h2 className="text-4xl md:text-5xl font-display font-bold text-ink leading-tight">
-            Interactive Canvas <br/>
+            Videri <br/>
             <span className="text-accent-violet">Presentation App</span>
           </h2>
           <div className="flex flex-wrap gap-3">
@@ -126,7 +126,7 @@ export const Projects = () => (
           
         <div className="space-y-6 text-lg text-ink-light font-medium leading-relaxed">
           <p>
-            Strategic partners required a dynamic, high-impact presentation tool that went far beyond standard slide decks. Stepping into the role of Tech Lead, I took full autonomous ownership of the project's realization—from direct client architecture sessions to final deployment.
+            Videri needed a dynamic, high-impact presentation tool that went far beyond standard slide decks. Stepping into the role of Tech Lead, I took full autonomous ownership of the project's realization-from direct client architecture sessions to final deployment.
           </p>
           <p>
             The core technical challenge was building a flawless, synchronized real-time experience. I engineered a robust solution utilizing the HTML5 Canvas API backed by a Node.js real-time event layer.

@@ -92,7 +92,7 @@ export const Hero = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
           >
             <p className="font-display font-bold text-2xl">Senior Full-Stack</p>
-            <p className="text-accent-cyan font-medium">React • Node.js • AI</p>
+            <p className="text-accent-cyan font-medium">React • Vue • Node • AI</p>
           </motion.div>
         </motion.div>
       </div>
