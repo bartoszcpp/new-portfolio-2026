@@ -71,26 +71,29 @@ export const Projects = () => (
       <div className="flex-1 space-y-8">
         <div className="space-y-4">
           <h2 className="text-4xl md:text-5xl font-display font-bold text-ink leading-tight">
-            Agency E-commerce <br/>
-            <span className="text-accent-cyan">Generation Engine</span>
+            VaynerMedia <br/>
+            <span className="text-accent-cyan">E-commerce Framework</span>
           </h2>
           <div className="flex flex-wrap gap-3">
             <Badge>Vue.js</Badge>
-            <Badge>Node.js</Badge>
             <Badge>Shopify</Badge>
-            <Badge>Automation</Badge>
+            <Badge>Agency Platform</Badge>
+            <Badge>VaynerX</Badge>
           </div>
         </div>
           
         <div className="space-y-6 text-lg text-ink-light font-medium leading-relaxed">
           <p>
-            When an agency scales, custom e-commerce builds become a major resource drain. To solve this, I architected and developed a massive internal framework designed to automate and standardize the generation of bespoke Shopify storefronts.
+            VaynerMedia is part of VaynerX, a large US-based group of companies building brands, media, and business outcomes for global partners. I contributed to this ecosystem as a developer responsible for both public-facing agency work and internal e-commerce tooling.
           </p>
           <p>
-            Instead of starting from scratch for every client, our engineers utilized this Vue.js and Node.js-powered engine. It provided a robust core architecture while allowing deep customization for unique brand identities.
+            I worked on the VaynerMedia website itself, helping deliver a polished digital presence for one of the group's most recognizable agencies. At the same time, I built an internal Vue.js and Shopify framework designed to rapidly generate e-commerce platforms for agency clients.
           </p>
           <p>
-            This tool fundamentally shifted the agency's operational capacity. It was successfully deployed to generate highly tailored, performant platforms for major, high-volume brands including Greyson Clothiers, UTZ Snacks, and Great Garden Plants.
+            The framework standardized repeatable storefront architecture while still allowing each brand to keep its own identity. It significantly optimized the development process and was successfully used for brands including Greyson Clothiers, UTZ Snacks, and Great Garden Plants.
+          </p>
+          <p>
+            This was one of my most important agency projects because it placed my work inside a global organization with large-scale delivery expectations, where reusable engineering directly supported faster client launches.
           </p>
         </div>
       </div>
