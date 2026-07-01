@@ -1,8 +1,42 @@
-import { motion } from "motion/react";
-import { Code2, Database, Layout, Sparkles, Terminal } from "lucide-react";
+import { useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { Code2, Database, Layout, Linkedin, Mail, Phone, Sparkles, Terminal, X } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import portraitImage from "../../assets/bartosz-portrait.png";
 
+type ContactLink = {
+  label: string;
+  value: string;
+  href: string;
+  icon: LucideIcon;
+  external?: boolean;
+};
+
+const contactLinks: ContactLink[] = [
+  {
+    label: "Phone",
+    value: "502 116 119",
+    href: "tel:+48502116119",
+    icon: Phone,
+  },
+  {
+    label: "Email",
+    value: "bartosz.cp@gmail.com",
+    href: "mailto:bartosz.cp@gmail.com",
+    icon: Mail,
+  },
+  {
+    label: "LinkedIn",
+    value: "Bartosz Ciąpała",
+    href: "https://www.linkedin.com/in/bartosz-cpp/",
+    icon: Linkedin,
+    external: true,
+  },
+];
+
 export const Hero = () => {
+  const [isContactOpen, setIsContactOpen] = useState(false);
+
   const icons = [
     { Icon: Layout, color: "text-accent-indigo", top: "10%", left: "10%", delay: 0 },
     { Icon: Database, color: "text-accent-cyan", top: "20%", left: "80%", delay: 0.2 },
@@ -52,14 +86,17 @@ export const Hero = () => {
             Hi, I'm Bartosz Ciąpała. I build vibrant, high-performance web platforms bridging deep technical architecture with elevated human design.
           </p>
           <div className="flex flex-wrap gap-4 pt-4">
-            <motion.button 
+            <motion.a 
+              href="#projects"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-8 py-4 bg-accent-indigo text-base rounded-full font-bold text-lg shadow-lg hover:bg-accent-violet transition-colors"
             >
               Explore My Work
-            </motion.button>
+            </motion.a>
             <motion.button 
+              type="button"
+              onClick={() => setIsContactOpen(true)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-8 py-4 bg-base-alt text-ink rounded-full font-bold text-lg border-2 border-ink-light hover:bg-base transition-colors"
@@ -96,6 +133,80 @@ export const Hero = () => {
           </motion.div>
         </motion.div>
       </div>
+
+      <AnimatePresence>
+        {isContactOpen && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-surface-dark/80 px-4 py-6 backdrop-blur-md"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsContactOpen(false)}
+          >
+            <motion.div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="contact-modal-title"
+              className="relative max-h-full w-full max-w-lg overflow-y-auto overflow-x-hidden rounded-[2rem] border border-ink/10 bg-base-alt p-6 shadow-2xl sm:rounded-[2.5rem] sm:p-8"
+              initial={{ opacity: 0, y: 30, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.96 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              onClick={(event) => event.stopPropagation()}
+            >
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.2),transparent_38%),radial-gradient(circle_at_bottom_left,rgba(6,182,212,0.16),transparent_36%)]" />
+              <div className="relative z-10">
+                <button
+                  type="button"
+                  onClick={() => setIsContactOpen(false)}
+                  className="absolute right-0 top-0 rounded-full border border-ink/10 bg-ink/5 p-2.5 text-ink-light transition-colors hover:bg-ink/10 hover:text-ink sm:p-3"
+                  aria-label="Close contact popup"
+                >
+                  <X size={20} />
+                </button>
+
+                <p className="mb-4 text-xs font-bold uppercase tracking-[0.35em] text-accent-cyan sm:text-sm">
+                  Contact
+                </p>
+                <h2 id="contact-modal-title" className="pr-12 font-display text-3xl font-bold leading-tight text-ink sm:text-4xl">
+                  Let's build something.
+                </h2>
+                <p className="mt-4 max-w-sm text-sm font-medium leading-relaxed text-ink-light/80 sm:text-base">
+                  Reach out directly by phone, email, or LinkedIn.
+                </p>
+
+                <div className="mt-6 space-y-3 sm:mt-8 sm:space-y-4">
+                  {contactLinks.map((item) => {
+                    const Icon = item.icon;
+
+                    return (
+                      <a
+                        key={item.label}
+                        href={item.href}
+                        target={item.external ? "_blank" : undefined}
+                        rel={item.external ? "noreferrer" : undefined}
+                        className="group flex min-w-0 items-center gap-3 rounded-[1.25rem] border border-ink/10 bg-surface-dark/70 p-3 transition-colors hover:border-accent-cyan/40 hover:bg-surface-dark sm:gap-4 sm:rounded-[1.5rem] sm:p-4"
+                      >
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-accent-cyan/10 text-accent-cyan sm:h-12 sm:w-12">
+                          <Icon size={20} />
+                        </span>
+                        <span className="min-w-0">
+                          <span className="block text-xs font-bold uppercase tracking-[0.18em] text-ink-light sm:text-sm">
+                            {item.label}
+                          </span>
+                          <span className="block break-words font-display text-base font-bold leading-snug text-ink transition-colors group-hover:text-accent-cyan sm:text-lg">
+                            {item.value}
+                          </span>
+                        </span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

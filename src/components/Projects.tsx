@@ -11,7 +11,7 @@ const Badge = ({ children }: { children: ReactNode }) => (
 );
 
 export const Projects = () => (
-  <section className="py-32 px-6 lg:px-12 max-w-7xl mx-auto space-y-48">
+  <section id="projects" className="py-32 px-6 lg:px-12 max-w-7xl mx-auto space-y-48 scroll-mt-12">
       
     {/* PROJECT 1 */}
     <motion.div 
