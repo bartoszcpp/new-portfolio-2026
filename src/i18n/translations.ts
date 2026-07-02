@@ -10,11 +10,11 @@ export const en = {
     language: "Language",
   },
   hero: {
-    titleLine1: "Engineering",
-    titleEmphasis: "high-performance",
-    titleLine3: "web platforms.",
+    titleLine1: "Fast,",
+    titleEmphasis: "reliable",
+    titleLine3: "web apps.",
     intro:
-      "Hi, I'm Bartosz Ciąpała — a senior full-stack developer. I build fast, reliable web platforms with clean architecture and a thoughtful, user-friendly interface.",
+      "Hi, I'm Bartosz Ciąpała - a senior full-stack developer. I build fast, reliable web platforms with clean architecture and a thoughtful, user-friendly interface.",
     exploreCta: "Explore My Work",
     contactCta: "Get in Touch",
     badgeRole: "Senior Full-Stack",
@@ -57,9 +57,18 @@ export const en = {
       title: "Videri",
       subtitle: "Presentation App",
       paragraphs: [
-        "Videri needed a dynamic, high-impact presentation tool that went far beyond standard slide decks. Stepping into the role of Tech Lead, I took full autonomous ownership of the project's realization—from direct client architecture sessions to final deployment.",
+        "Videri needed a dynamic, high-impact presentation tool that went far beyond standard slide decks. Stepping into the role of Tech Lead, I took full autonomous ownership of the project's realization - from direct client architecture sessions to final deployment.",
         "The core technical challenge was building a flawless, synchronized real-time experience. I engineered a robust solution utilizing the HTML5 Canvas API backed by a Node.js real-time event layer.",
         "The application featured a custom real-time image generator, manipulating pixel data on the fly to respond to presenter inputs. This created a deeply immersive, highly responsive presentation environment that captivated strategic stakeholders.",
+      ],
+    },
+    sofomo: {
+      title: "Sofomo",
+      subtitle: "Company Website",
+      paragraphs: [
+        "Sofomo is a software development partner that embeds senior engineers into client teams. I'm part of Sofomo as a Senior Software Engineer, and I also co-created the company's own marketing website.",
+        "The site is a fast, animated showcase of Sofomo's team, services, and approach - the digital business card that introduces the company to potential clients and partners.",
+        "I focused on smooth motion, a clean responsive layout, and performance, so the page feels as polished as the engineering work it represents.",
       ],
     },
   },
@@ -124,11 +133,11 @@ export const en = {
     philosophies: [
       {
         title: "Pragmatic Architecture",
-        desc: "Focusing on business value over theoretical perfection. Clean code is a means to an end—scalable, maintainable, and highly performant user experiences.",
+        desc: "Focusing on business value over theoretical perfection. Clean code is a means to an end - scalable, maintainable, and highly performant user experiences.",
       },
       {
         title: "Knowledge Amplification",
-        desc: "For me, code review isn't just checking code — it's the best way for the whole team to learn. I like fixing things as we go and sharing what I know with others.",
+        desc: "For me, code review isn't just checking code - it's the best way for the whole team to learn. I like fixing things as we go and sharing what I know with others.",
       },
       {
         title: "AI-Augmented Execution",
@@ -222,9 +231,9 @@ export const pl: Dictionary = {
     language: "Język",
   },
   hero: {
-    titleLine1: "Tworzę",
-    titleEmphasis: "wydajne",
-    titleLine3: "platformy webowe.",
+    titleLine1: "Szybkie i",
+    titleEmphasis: "niezawodne",
+    titleLine3: "aplikacje.",
     intro:
       "Cześć, jestem Bartosz Ciąpała - senior full-stack developer. Buduję szybkie i niezawodne platformy internetowe z czystą architekturą i przemyślanym, przyjaznym interfejsem.",
     exploreCta: "Zobacz moje projekty",
@@ -272,6 +281,15 @@ export const pl: Dictionary = {
         "Videri potrzebowało dynamicznego, efektownego narzędzia prezentacyjnego, wykraczającego daleko poza standardowe slajdy. Wchodząc w rolę Tech Leada, przejąłem pełną, samodzielną odpowiedzialność za realizację projektu - od sesji architektonicznych z klientem aż po wdrożenie.",
         "Głównym wyzwaniem technicznym było zbudowanie bezbłędnego, zsynchronizowanego doświadczenia w czasie rzeczywistym. Stworzyłem solidne rozwiązanie oparte na HTML5 Canvas API i warstwie zdarzeń czasu rzeczywistego w Node.js.",
         "Aplikacja zawierała autorski generator obrazów w czasie rzeczywistym, manipulujący danymi pikseli „w locie” w odpowiedzi na działania prezentera. Stworzyło to głęboko wciągające, bardzo responsywne środowisko prezentacji, które zachwyciło kluczowych interesariuszy.",
+      ],
+    },
+    sofomo: {
+      title: "Sofomo",
+      subtitle: "Strona firmowa",
+      paragraphs: [
+        "Sofomo to firma dostarczająca doświadczonych programistów do zespołów klientów. Jestem częścią Sofomo jako Senior Software Engineer i dodatkowo współtworzyłem firmową stronę marketingową.",
+        "Strona to szybka, animowana wizytówka zespołu, usług i podejścia Sofomo - cyfrowa wizytówka, która przedstawia firmę potencjalnym klientom i partnerom.",
+        "Postawiłem na płynne animacje, czysty, responsywny layout i wydajność, żeby strona była tak dopracowana jak inżynieria, którą reprezentuje.",
       ],
     },
   },

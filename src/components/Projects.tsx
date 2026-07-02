@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { WorkwearImpact } from "./visuals/WorkwearImpact";
 import { FrameworkDiagram } from "./visuals/FrameworkDiagram";
 import { CanvasDiagram } from "./visuals/CanvasDiagram";
+import { SofomoShowcase } from "./visuals/SofomoShowcase";
 import { useTranslation } from "../i18n/LanguageContext";
 
 const Badge = ({ children }: { children: ReactNode }) => (
@@ -145,6 +146,44 @@ export const Projects = () => {
         </div>
         <div className="flex-1 w-full bg-base-alt p-4 rounded-[3rem] shadow-xl border-4 border-base">
           <CanvasDiagram />
+        </div>
+      </motion.div>
+      
+      <motion.div
+        className="flex flex-col lg:flex-row-reverse gap-16 items-center"
+        initial={{ opacity: 0, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="flex-1 space-y-8">
+          <div className="space-y-4">
+            <h2 className="text-4xl md:text-5xl font-display font-bold text-ink leading-tight">
+              {t.projects.sofomo.title} <br />
+              <span className="text-accent-cyan">{t.projects.sofomo.subtitle}</span>
+            </h2>
+            <div className="flex flex-wrap gap-3">
+              <Badge>React</Badge>
+              <Badge>Next.js</Badge>
+              <Badge>Tailwind CSS</Badge>
+              <Badge>Motion</Badge>
+            </div>
+          </div>
+
+          <div className="space-y-6 text-lg text-ink-light font-medium leading-relaxed">
+            {t.projects.sofomo.paragraphs.map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
+            ))}
+          </div>
+
+          <ProjectLink
+            href="https://www.sofomo.com/"
+            label={t.projects.visit}
+            className="border-accent-cyan text-accent-cyan hover:bg-accent-cyan hover:text-white"
+          />
+        </div>
+        <div className="flex-1 w-full bg-base-alt rounded-[3rem] shadow-xl border-4 border-base overflow-hidden">
+          <SofomoShowcase />
         </div>
       </motion.div>
     </section>
