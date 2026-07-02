@@ -21,6 +21,10 @@ body {
   font-family: var(--font-sans);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 ::selection {
   background-color: var(--color-accent-indigo);
   color: var(--color-base);

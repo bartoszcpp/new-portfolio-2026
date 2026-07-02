@@ -1,0 +1,185 @@
+import "dotenv/config";
+import path from "path";
+import { fileURLToPath } from "url";
+import express from "express";
+import type { Request, Response } from "express";
+import { neon } from "@neondatabase/serverless";
+
+const currentDir = path.dirname(fileURLToPath(import.meta.url));
+const distPath = path.resolve(currentDir, "../dist");
+
+const databaseUrl = process.env.DATABASE_URL;
+const sql = databaseUrl ? neon(databaseUrl) : null;
+
+if (!sql) {
+  console.warn(
+    "[server] DATABASE_URL is not set. /api/scores will respond with 503 until a Neon connection string is provided.",
+  );
+}
+
+type ScoreRow = {
+  id: string;
+  name: string;
+  company: string;
+  city_raw: string;
+  city_normalized: string;
+  avatar_id: string;
+  score: number;
+  best_combo: number;
+  created_at: string | Date;
+};
+
+type ScoreRecord = {
+  id: string;
+  name: string;
+  company: string;
+  cityRaw: string;
+  cityNormalized: string;
+  avatarId: string;
+  score: number;
+  bestCombo: number;
+  createdAt: string;
+};
+
+type NewScore = Omit<ScoreRecord, "id" | "createdAt">;
+
+const mapRow = (row: ScoreRow): ScoreRecord => ({
+  id: row.id,
+  name: row.name,
+  company: row.company ?? "",
+  cityRaw: row.city_raw,
+  cityNormalized: row.city_normalized,
+  avatarId: row.avatar_id,
+  score: Number(row.score),
+  bestCombo: Number(row.best_combo),
+  createdAt: new Date(row.created_at).toISOString(),
+});
+
+const clampText = (value: unknown, maxLength: number): string =>
+  typeof value === "string" ? value.trim().slice(0, maxLength) : "";
+
+const parseNewScore = (body: unknown): NewScore | null => {
+  if (typeof body !== "object" || body === null) {
+    return null;
+  }
+
+  const raw = body as Record<string, unknown>;
+  const name = clampText(raw.name, 60);
+  const cityNormalized = clampText(raw.cityNormalized, 80);
+
+  if (name.length < 2 || cityNormalized.length < 2) {
+    return null;
+  }
+
+  const score = Number(raw.score);
+  const bestCombo = Number(raw.bestCombo);
+
+  if (!Number.isFinite(score) || !Number.isFinite(bestCombo)) {
+    return null;
+  }
+
+  return {
+    name,
+    company: clampText(raw.company, 80),
+    cityRaw: clampText(raw.cityRaw, 80) || cityNormalized,
+    cityNormalized,
+    avatarId: clampText(raw.avatarId, 40) || "scout",
+    score: Math.max(0, Math.min(Math.round(score), 1_000_000)),
+    bestCombo: Math.max(0, Math.min(Math.round(bestCombo), 100_000)),
+  };
+};
+
+const ensureSchema = async () => {
+  if (!sql) {
+    return;
+  }
+
+  await sql`
+    CREATE TABLE IF NOT EXISTS game_scores (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      name TEXT NOT NULL,
+      company TEXT NOT NULL DEFAULT '',
+      city_raw TEXT NOT NULL,
+      city_normalized TEXT NOT NULL,
+      avatar_id TEXT NOT NULL,
+      score INTEGER NOT NULL,
+      best_combo INTEGER NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `;
+
+  await sql`ALTER TABLE game_scores ADD COLUMN IF NOT EXISTS company TEXT NOT NULL DEFAULT '';`;
+};
+
+const app = express();
+app.use(express.json());
+
+app.get("/api/scores", async (_req: Request, res: Response) => {
+  if (!sql) {
+    res.status(503).json({ error: "Database not configured" });
+    return;
+  }
+
+  try {
+    const rows = (await sql`
+      SELECT id, name, company, city_raw, city_normalized, avatar_id, score, best_combo, created_at
+      FROM game_scores
+      ORDER BY score DESC, created_at DESC
+      LIMIT 200;
+    `) as ScoreRow[];
+
+    res.json({ scores: rows.map(mapRow) });
+  } catch (error) {
+    console.error("[server] Failed to load scores", error);
+    res.status(500).json({ error: "Failed to load scores" });
+  }
+});
+
+app.post("/api/scores", async (req: Request, res: Response) => {
+  if (!sql) {
+    res.status(503).json({ error: "Database not configured" });
+    return;
+  }
+
+  const payload = parseNewScore(req.body);
+  if (!payload) {
+    res.status(400).json({ error: "Invalid payload" });
+    return;
+  }
+
+  try {
+    const rows = (await sql`
+      INSERT INTO game_scores (name, company, city_raw, city_normalized, avatar_id, score, best_combo)
+      VALUES (
+        ${payload.name},
+        ${payload.company},
+        ${payload.cityRaw},
+        ${payload.cityNormalized},
+        ${payload.avatarId},
+        ${payload.score},
+        ${payload.bestCombo}
+      )
+      RETURNING id, name, company, city_raw, city_normalized, avatar_id, score, best_combo, created_at;
+    `) as ScoreRow[];
+
+    res.status(201).json({ score: mapRow(rows[0]) });
+  } catch (error) {
+    console.error("[server] Failed to save score", error);
+    res.status(500).json({ error: "Failed to save score" });
+  }
+});
+
+app.use(express.static(distPath));
+app.get("*", (_req: Request, res: Response) => {
+  res.sendFile(path.join(distPath, "index.html"));
+});
+
+const port = Number(process.env.PORT ?? 3001);
+
+ensureSchema()
+  .catch((error) => console.error("[server] Failed to ensure schema", error))
+  .finally(() => {
+    app.listen(port, () => {
+      console.log(`[server] API listening on http://localhost:${port}`);
+    });
+  });

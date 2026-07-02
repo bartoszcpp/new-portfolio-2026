@@ -14,7 +14,7 @@ const philosophies: Philosophy[] = [
   {
     icon: Zap,
     title: "Pragmatic Architecture",
-    desc: "Focusing on business value over theoretical perfection. Clean code is a means to an end—scalable, maintainable, and highly performant user experiences.",
+    desc: "Focusing on business value over theoretical perfection. Clean code is a means to an end-scalable, maintainable, and highly performant user experiences.",
     color: "text-accent-cyan",
     bg: "bg-accent-cyan/10"
   },
@@ -36,7 +36,6 @@ const philosophies: Philosophy[] = [
 
 export const Leadership = () => (
   <section className="bg-surface-dark py-32 px-6 lg:px-12 relative overflow-hidden">
-      {/* Organic Background Shapes */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <motion.div 
           className="absolute -top-32 -right-32 w-96 h-96 bg-accent-indigo rounded-full mix-blend-screen opacity-20 blur-3xl"
@@ -114,7 +113,6 @@ export const Leadership = () => (
               transition={{ duration: 0.6, delay: 0.2 + i * 0.15 }}
               whileHover={{ y: -5 }}
             >
-              {/* Subtle hover gradient */}
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-ink/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
               
               <div className={`w-16 h-16 rounded-2xl ${item.bg} flex items-center justify-center mb-6`}>

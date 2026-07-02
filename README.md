@@ -10,6 +10,7 @@ The codebase is intentionally small and component-focused, with each page sectio
 - Project showcase with custom visual diagrams for e-commerce, framework, and canvas work.
 - Engineering philosophy section focused on leadership, architecture, mentorship, and AI-assisted delivery.
 - Scroll-linked journey timeline with responsive desktop and mobile layouts.
+- Delivery Dash recruiter arcade mini-game with a canvas game engine, player setup, city normalization, local leaderboard, and statistics charts.
 - Dark visual system using custom Tailwind theme tokens, rounded surfaces, glow effects, and display typography.
 
 ## Tech Stack
@@ -29,16 +30,24 @@ The codebase is intentionally small and component-focused, with each page sectio
 ├── assets/
 │   ├── bartosz-portrait.png
 │   └── videri-demo.mp4
+├── server/
+│   └── index.ts
 ├── src/
 │   ├── components/
 │   │   ├── Hero.tsx
+│   │   ├── Navigation.tsx
 │   │   ├── Projects.tsx
 │   │   ├── Leadership.tsx
 │   │   ├── Journey.tsx
+│   │   ├── RecruiterGame.tsx
+│   │   ├── game/
+│   │   │   └── DeliveryDashCanvas.tsx
 │   │   └── visuals/
 │   │       ├── CanvasDiagram.tsx
 │   │       ├── FrameworkDiagram.tsx
 │   │       └── WorkwearImpact.tsx
+│   ├── lib/
+│   │   └── scoresApi.ts
 │   ├── App.tsx
 │   ├── index.css
 │   ├── main.tsx
@@ -125,6 +134,29 @@ The repo follows the standards documented in `CODING_STANDARDS.md`. The most imp
 `Leadership` explains engineering philosophy, mentorship, standards, and AI-augmented workflows.
 
 `Journey` renders the career timeline with animated cards and a scroll-linked vertical progress line.
+
+`RecruiterGame` renders Delivery Dash, a standalone arcade mini-game for recruiters and HR teams. The gameplay runs on a dedicated canvas engine (`components/game/DeliveryDashCanvas.tsx`) using `requestAnimationFrame` for smooth 60fps movement: players move a glowing avatar around a neon grid, collect engineering skills, dodge bugs, grab rescue boosts that clear the swarm, and build combos across lives. Players enter their name, company, and city (normalized so `krakow`, `Kraków`, and `KRAKOW` all map to a single canonical city) before playing, and results are shown in a shared leaderboard plus city-level statistics with Recharts.
+
+## Recruiter Game Database & API
+
+Game scores are persisted to [Neon](https://neon.tech) (serverless PostgreSQL) through a small Express API in `server/index.ts`. The frontend talks to it via `src/lib/scoresApi.ts`, which transparently falls back to `localStorage` when the API or database is unavailable, so the game keeps working offline.
+
+Endpoints:
+
+- `GET /api/scores` returns the top scores.
+- `POST /api/scores` stores a new run (`name`, `company`, `cityRaw`, `cityNormalized`, `avatarId`, `score`, `bestCombo`).
+
+Setup:
+
+1. Create a database on Neon and copy the pooled connection string.
+2. Copy `.env.example` to `.env` and set `DATABASE_URL` (and optionally `PORT`, default `3001`).
+3. Run the API server alongside the Vite dev server:
+
+```bash
+npm run server
+```
+
+The Vite dev server proxies `/api` to `http://localhost:3001`, so with both `npm run dev` and `npm run server` running, scores are shared across everyone who opens the site. The `game_scores` table (including the `company` column) is created automatically on first start. For a single-process production deployment, run `npm run build` and then `npm start`, which serves the built `dist` output and the API from the same Express server.
 
 ## Assets
 
