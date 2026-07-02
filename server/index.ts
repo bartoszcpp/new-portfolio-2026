@@ -109,10 +109,41 @@ const ensureSchema = async () => {
   `;
 
   await sql`ALTER TABLE game_scores ADD COLUMN IF NOT EXISTS company TEXT NOT NULL DEFAULT '';`;
+  await sql`
+    DELETE FROM game_scores a
+    USING game_scores b
+    WHERE lower(a.name) = lower(b.name)
+      AND lower(a.company) = lower(b.company)
+      AND lower(a.city_normalized) = lower(b.city_normalized)
+      AND (a.score < b.score OR (a.score = b.score AND a.created_at < b.created_at));
+  `;
+  await sql`
+    CREATE UNIQUE INDEX IF NOT EXISTS game_scores_identity_idx
+    ON game_scores (lower(name), lower(company), lower(city_normalized));
+  `;
+};
+
+const maxLeaderboardRows = 500;
+const rateLimitWindowMs = 60_000;
+const rateLimitMaxWrites = 20;
+const writeHitsByIp = new Map<string, { count: number; resetAt: number }>();
+
+const isWriteRateLimited = (ip: string): boolean => {
+  const now = Date.now();
+  const entry = writeHitsByIp.get(ip);
+
+  if (!entry || now > entry.resetAt) {
+    writeHitsByIp.set(ip, { count: 1, resetAt: now + rateLimitWindowMs });
+    return false;
+  }
+
+  entry.count += 1;
+  return entry.count > rateLimitMaxWrites;
 };
 
 const app = express();
-app.use(express.json());
+app.set("trust proxy", 1);
+app.use(express.json({ limit: "8kb" }));
 
 app.get("/api/scores", async (_req: Request, res: Response) => {
   if (!sql) {
@@ -141,6 +172,11 @@ app.post("/api/scores", async (req: Request, res: Response) => {
     return;
   }
 
+  if (isWriteRateLimited(req.ip ?? "unknown")) {
+    res.status(429).json({ error: "Too many requests" });
+    return;
+  }
+
   const payload = parseNewScore(req.body);
   if (!payload) {
     res.status(400).json({ error: "Invalid payload" });
@@ -159,10 +195,30 @@ app.post("/api/scores", async (req: Request, res: Response) => {
         ${payload.score},
         ${payload.bestCombo}
       )
+      ON CONFLICT (lower(name), lower(company), lower(city_normalized))
+      DO UPDATE SET
+        score = EXCLUDED.score,
+        best_combo = EXCLUDED.best_combo,
+        avatar_id = EXCLUDED.avatar_id,
+        city_raw = EXCLUDED.city_raw,
+        name = EXCLUDED.name,
+        company = EXCLUDED.company,
+        created_at = now()
+      WHERE EXCLUDED.score > game_scores.score
       RETURNING id, name, company, city_raw, city_normalized, avatar_id, score, best_combo, created_at;
     `) as ScoreRow[];
 
-    res.status(201).json({ score: mapRow(rows[0]) });
+    await sql`
+      DELETE FROM game_scores
+      WHERE id NOT IN (
+        SELECT id FROM game_scores
+        ORDER BY score DESC, created_at DESC
+        LIMIT ${maxLeaderboardRows}
+      );
+    `;
+
+    const updated = rows.length > 0;
+    res.status(updated ? 201 : 200).json({ updated, score: updated ? mapRow(rows[0]) : null });
   } catch (error) {
     console.error("[server] Failed to save score", error);
     res.status(500).json({ error: "Failed to save score" });
