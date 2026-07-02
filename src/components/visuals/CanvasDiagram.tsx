@@ -2,8 +2,10 @@ import { useRef, useState } from "react";
 import { motion, useInView } from "motion/react";
 import { Network, Sparkles, Volume2, VolumeX } from "lucide-react";
 import videriDemoVideo from "../../../assets/videri-demo.mp4";
+import { useTranslation } from "../../i18n/LanguageContext";
 
 export const CanvasDiagram = () => {
+  const t = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const shouldLoadVideo = useInView(containerRef, { once: true, margin: "300px" });
@@ -32,7 +34,7 @@ export const CanvasDiagram = () => {
             viewport={{ once: true }}
           >
             <Network className="text-accent-cyan" size={20} />
-            <span className="font-bold">Socket.io Events</span>
+            <span className="font-bold">{t.canvas.socket}</span>
           </motion.div>
           <motion.div
             className="bg-ink/10 backdrop-blur-md px-4 py-3 rounded-3xl text-ink flex items-center gap-3"
@@ -41,7 +43,7 @@ export const CanvasDiagram = () => {
             viewport={{ once: true }}
           >
             <Sparkles className="text-accent-violet" size={20} />
-            <span className="font-bold">Live Demo</span>
+            <span className="font-bold">{t.canvas.liveDemo}</span>
           </motion.div>
         </div>
 
@@ -65,8 +67,8 @@ export const CanvasDiagram = () => {
 
           <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-4 bg-gradient-to-t from-surface-dark/95 via-surface-dark/70 to-transparent p-5 pt-14">
             <div>
-              <h4 className="font-display text-2xl font-bold text-ink">HTML5 Canvas Engine</h4>
-              <p className="text-sm font-medium text-accent-cyan">Real-time synchronized presentation demo</p>
+              <h4 className="font-display text-2xl font-bold text-ink">{t.canvas.engineTitle}</h4>
+              <p className="text-sm font-medium text-accent-cyan">{t.canvas.engineSubtitle}</p>
             </div>
             <motion.button
               type="button"
@@ -74,23 +76,13 @@ export const CanvasDiagram = () => {
               className="flex shrink-0 items-center gap-2 rounded-full border border-ink/10 bg-ink/10 px-4 py-3 font-bold text-ink backdrop-blur-md transition-colors hover:bg-ink/20"
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
-              aria-label={isMuted ? "Turn demo sound on" : "Turn demo sound off"}
+              aria-label={isMuted ? t.canvas.soundOnAria : t.canvas.soundOffAria}
             >
               {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
-              <span className="hidden sm:inline">{isMuted ? "Sound on" : "Sound off"}</span>
+              <span className="hidden sm:inline">{isMuted ? t.canvas.soundOn : t.canvas.soundOff}</span>
             </motion.button>
           </div>
         </motion.div>
-
-        <motion.p
-          className="relative z-10 mt-4 text-center text-sm font-medium text-ink-light/70"
-          initial={{ y: 16, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-        >
-          The video is lazy-loaded near this section to keep the portfolio fast.
-        </motion.p>
       </div>
     </div>
   );

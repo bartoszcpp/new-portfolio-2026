@@ -5,6 +5,7 @@ import { Leadership } from './components/Leadership';
 import { Journey } from './components/Journey';
 import { Navigation } from './components/Navigation';
 import type { AppRoute } from './components/Navigation';
+import { useTranslation } from './i18n/LanguageContext';
 
 const RecruiterGame = lazy(() =>
   import('./components/RecruiterGame').then((module) => ({ default: module.RecruiterGame })),
@@ -23,6 +24,7 @@ const PortfolioPage = () => (
 );
 
 const App = () => {
+  const t = useTranslation();
   const [currentRoute, setCurrentRoute] = useState<AppRoute>(() => getCurrentRoute());
 
   useEffect(() => {
@@ -45,7 +47,7 @@ const App = () => {
         <Suspense
           fallback={
             <main className="flex min-h-screen items-center justify-center px-6 pt-32">
-              <p className="font-display text-2xl font-bold text-ink">Loading recruiter game...</p>
+              <p className="font-display text-2xl font-bold text-ink">{t.game.loading}</p>
             </main>
           }
         >
@@ -58,7 +60,7 @@ const App = () => {
       {/* Footer */}
     <footer className="bg-surface-dark py-12 text-center">
       <p className="text-ink-light/60 font-medium">
-        © {new Date().getFullYear()} Bartosz Ciąpała. Engineered with intention.
+        © {new Date().getFullYear()} Bartosz Ciąpała. {t.footer.rights}
       </p>
     </footer>
     </div>

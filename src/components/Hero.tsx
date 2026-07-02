@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Code2, Database, Layout, Linkedin, Mail, Phone, Sparkles, Terminal, X } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import portraitImage from "../../assets/bartosz-portrait.png";
+import { useTranslation } from "../i18n/LanguageContext";
 
 type ContactLink = {
   label: string;
@@ -12,30 +13,31 @@ type ContactLink = {
   external?: boolean;
 };
 
-const contactLinks: ContactLink[] = [
-  {
-    label: "Phone",
-    value: "502 116 119",
-    href: "tel:+48502116119",
-    icon: Phone,
-  },
-  {
-    label: "Email",
-    value: "bartosz.cp@gmail.com",
-    href: "mailto:bartosz.cp@gmail.com",
-    icon: Mail,
-  },
-  {
-    label: "LinkedIn",
-    value: "Bartosz Ciąpała",
-    href: "https://www.linkedin.com/in/bartosz-cpp/",
-    icon: Linkedin,
-    external: true,
-  },
-];
-
 export const Hero = () => {
+  const t = useTranslation();
   const [isContactOpen, setIsContactOpen] = useState(false);
+
+  const contactLinks: ContactLink[] = [
+    {
+      label: t.hero.contact.phone,
+      value: "502 116 119",
+      href: "tel:+48502116119",
+      icon: Phone,
+    },
+    {
+      label: t.hero.contact.email,
+      value: "bartosz.cp@gmail.com",
+      href: "mailto:bartosz.cp@gmail.com",
+      icon: Mail,
+    },
+    {
+      label: t.hero.contact.linkedin,
+      value: "Bartosz Ciąpała",
+      href: "https://www.linkedin.com/in/bartosz-cpp/",
+      icon: Linkedin,
+      external: true,
+    },
+  ];
 
   const icons = [
     { Icon: Layout, color: "text-accent-indigo", top: "10%", left: "10%", delay: 0 },
@@ -47,7 +49,6 @@ export const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-32">
-      {/* Floating Icons */}
       {icons.map((item, i) => (
         <motion.div
           key={i}
@@ -76,14 +77,14 @@ export const Hero = () => {
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <h1 className="text-6xl md:text-8xl font-display font-bold text-ink leading-[1.1] tracking-tight">
-            Engineering
+            {t.hero.titleLine1}
             <br />
-            <span className="text-accent-indigo italic">Organic</span>
+            <span className="text-accent-indigo italic">{t.hero.titleEmphasis}</span>
             <br />
-            Experiences.
+            {t.hero.titleLine3}
           </h1>
           <p className="text-xl md:text-2xl text-ink-light max-w-xl font-medium leading-relaxed">
-            Hi, I'm Bartosz Ciąpała. I build vibrant, high-performance web platforms bridging deep technical architecture with elevated human design.
+            {t.hero.intro}
           </p>
           <div className="flex flex-wrap gap-4 pt-4">
             <motion.a 
@@ -92,7 +93,7 @@ export const Hero = () => {
               whileTap={{ scale: 0.95 }}
               className="px-8 py-4 bg-accent-indigo text-base rounded-full font-bold text-lg shadow-lg hover:bg-accent-violet transition-colors"
             >
-              Explore My Work
+              {t.hero.exploreCta}
             </motion.a>
             <motion.button 
               type="button"
@@ -101,7 +102,7 @@ export const Hero = () => {
               whileTap={{ scale: 0.95 }}
               className="px-8 py-4 bg-base-alt text-ink rounded-full font-bold text-lg border-2 border-ink-light hover:bg-base transition-colors"
             >
-              Get in Touch
+              {t.hero.contactCta}
             </motion.button>
           </div>
         </motion.div>
@@ -112,7 +113,6 @@ export const Hero = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
         >
-          {/* Creative Masked Image Placeholder */}
           <div className="w-full aspect-[4/5] relative rounded-t-[12rem] rounded-b-[4rem] overflow-hidden border-8 border-base-alt shadow-2xl">
             <div className="absolute inset-0 bg-ink opacity-10 mix-blend-multiply"></div>
             <img 
@@ -128,8 +128,8 @@ export const Hero = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
           >
-            <p className="font-display font-bold text-2xl">Senior Full-Stack</p>
-            <p className="text-accent-cyan font-medium">React • Vue • Node • AI</p>
+            <p className="font-display font-bold text-2xl">{t.hero.badgeRole}</p>
+            <p className="text-accent-cyan font-medium">{t.hero.badgeStack}</p>
           </motion.div>
         </motion.div>
       </div>
@@ -160,19 +160,19 @@ export const Hero = () => {
                   type="button"
                   onClick={() => setIsContactOpen(false)}
                   className="absolute right-0 top-0 rounded-full border border-ink/10 bg-ink/5 p-2.5 text-ink-light transition-colors hover:bg-ink/10 hover:text-ink sm:p-3"
-                  aria-label="Close contact popup"
+                  aria-label={t.hero.contact.close}
                 >
                   <X size={20} />
                 </button>
 
                 <p className="mb-4 text-xs font-bold uppercase tracking-[0.35em] text-accent-cyan sm:text-sm">
-                  Contact
+                  {t.hero.contact.eyebrow}
                 </p>
                 <h2 id="contact-modal-title" className="pr-12 font-display text-3xl font-bold leading-tight text-ink sm:text-4xl">
-                  Let's build something.
+                  {t.hero.contact.title}
                 </h2>
                 <p className="mt-4 max-w-sm text-sm font-medium leading-relaxed text-ink-light/80 sm:text-base">
-                  Reach out directly by phone, email, or LinkedIn.
+                  {t.hero.contact.subtitle}
                 </p>
 
                 <div className="mt-6 space-y-3 sm:mt-8 sm:space-y-4">

@@ -1,15 +1,14 @@
 import { motion } from "motion/react";
 import { Building2, Globe2, Server, Store } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { useTranslation } from "../../i18n/LanguageContext";
 
 type Brand = {
   name: string;
   color: string;
 };
 
-type Workstream = {
-  title: string;
-  description: string;
+type WorkstreamStyle = {
   icon: LucideIcon;
   accent: string;
 };
@@ -20,23 +19,16 @@ const brands: Brand[] = [
   { name: "Great Garden", color: "bg-ink-light" }
 ];
 
-const workstreams: Workstream[] = [
-  {
-    title: "VaynerMedia Website",
-    description: "Public-facing agency presence for a major global organization.",
-    icon: Globe2,
-    accent: "text-accent-cyan",
-  },
-  {
-    title: "Internal Framework",
-    description: "Reusable Vue.js and Shopify foundation for faster e-commerce launches.",
-    icon: Server,
-    accent: "text-accent-indigo",
-  },
+const workstreamStyles: WorkstreamStyle[] = [
+  { icon: Globe2, accent: "text-accent-cyan" },
+  { icon: Server, accent: "text-accent-indigo" },
 ];
 
-export const FrameworkDiagram = () => (
-  <div className="relative w-full overflow-hidden rounded-[3rem] bg-surface-dark p-6 py-12">
+export const FrameworkDiagram = () => {
+  const t = useTranslation();
+
+  return (
+    <div className="relative w-full overflow-hidden rounded-[3rem] bg-surface-dark p-6 py-12">
     <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(6,182,212,0.18),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(99,102,241,0.18),transparent_36%)]" />
 
     <div className="relative z-10 flex flex-col items-center">
@@ -49,18 +41,19 @@ export const FrameworkDiagram = () => (
       >
         <Building2 size={42} className="text-accent-cyan" />
         <p className="mt-4 font-display text-sm font-bold uppercase tracking-[0.28em] text-accent-cyan">
-          VaynerX Ecosystem
+          {t.framework.eyebrow}
         </p>
         <h3 className="mt-2 font-display text-3xl font-bold text-ink">VaynerMedia</h3>
         <p className="mt-3 text-sm font-medium leading-relaxed text-ink-light/80">
-          Global agency work spanning brand presence and reusable commerce delivery.
+          {t.framework.subtitle}
         </p>
       </motion.div>
 
       <div className="relative my-8 grid w-full gap-4 md:grid-cols-2">
         <div className="absolute left-1/2 top-0 hidden h-full w-px -translate-x-1/2 bg-gradient-to-b from-accent-cyan to-accent-indigo md:block" />
-        {workstreams.map((item, i) => {
-          const Icon = item.icon;
+        {workstreamStyles.map((style, i) => {
+          const item = t.framework.workstreams[i];
+          const Icon = style.icon;
 
           return (
             <motion.div
@@ -72,7 +65,7 @@ export const FrameworkDiagram = () => (
               transition={{ duration: 0.5, delay: 0.2 + i * 0.15 }}
               whileHover={{ y: -5 }}
             >
-              <div className={`mb-4 inline-flex rounded-2xl bg-ink/5 p-3 ${item.accent}`}>
+              <div className={`mb-4 inline-flex rounded-2xl bg-ink/5 p-3 ${style.accent}`}>
                 <Icon size={24} />
               </div>
               <h4 className="font-display text-xl font-bold text-ink">{item.title}</h4>
@@ -86,7 +79,7 @@ export const FrameworkDiagram = () => (
 
       <div className="w-full">
         <p className="mb-4 text-center font-display text-xs font-bold uppercase tracking-[0.28em] text-ink-light">
-          Generated storefronts
+          {t.framework.generatedLabel}
         </p>
         <div className="grid gap-4 sm:grid-cols-3">
           {brands.map((brand, i) => (
@@ -106,5 +99,6 @@ export const FrameworkDiagram = () => (
         </div>
       </div>
     </div>
-  </div>
-);
+    </div>
+  );
+};

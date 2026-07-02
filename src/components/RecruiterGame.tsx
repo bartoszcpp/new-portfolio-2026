@@ -14,14 +14,13 @@ import {
 import { DeliveryDashCanvas } from "./game/DeliveryDashCanvas";
 import { fetchScores, submitScore } from "../lib/scoresApi";
 import type { AvatarId, NewScore, ScoreRecord } from "../lib/scoresApi";
+import { useTranslation } from "../i18n/LanguageContext";
 
 type GameStage = "setup" | "playing" | "finished";
 
-type Avatar = {
+type AvatarStyle = {
   id: AvatarId;
-  label: string;
   icon: LucideIcon;
-  description: string;
   color: string;
 };
 
@@ -45,35 +44,11 @@ type CityStats = {
   players: number;
 };
 
-const avatars: Avatar[] = [
-  {
-    id: "scout",
-    label: "Talent Scout",
-    icon: Compass,
-    description: "Finds the right signal fast.",
-    color: "#06B6D4",
-  },
-  {
-    id: "architect",
-    label: "System Architect",
-    icon: DraftingCompass,
-    description: "Builds for scale and clarity.",
-    color: "#6366F1",
-  },
-  {
-    id: "shipper",
-    label: "Delivery Hero",
-    icon: Rocket,
-    description: "Turns ideas into releases.",
-    color: "#8B5CF6",
-  },
-  {
-    id: "mentor",
-    label: "Team Mentor",
-    icon: UserRoundCheck,
-    description: "Raises the whole team's level.",
-    color: "#22D3EE",
-  },
+const avatarStyles: AvatarStyle[] = [
+  { id: "scout", icon: Compass, color: "#06B6D4" },
+  { id: "architect", icon: DraftingCompass, color: "#6366F1" },
+  { id: "shipper", icon: Rocket, color: "#8B5CF6" },
+  { id: "mentor", icon: UserRoundCheck, color: "#22D3EE" },
 ];
 
 const cityOptions: CityOption[] = [
@@ -139,13 +114,14 @@ const getCityStats = (scores: ScoreRecord[]): CityStats[] => {
     .sort((a, b) => b.bestScore - a.bestScore);
 };
 
-const Badge = ({ children }: { children: string }) => (
+const Badge = ({ children }: { children: string; key?: string }) => (
   <span className="rounded-full border border-ink/10 bg-ink/5 px-4 py-2 text-sm font-bold text-ink-light">
     {children}
   </span>
 );
 
 export const RecruiterGame = () => {
+  const t = useTranslation();
   const [stage, setStage] = useState<GameStage>("setup");
   const [playerName, setPlayerName] = useState("");
   const [companyInput, setCompanyInput] = useState("");
@@ -164,8 +140,16 @@ export const RecruiterGame = () => {
   const cityStats = useMemo(() => getCityStats(scores), [scores]);
   const topScores = useMemo(() => [...scores].sort((a, b) => b.score - a.score).slice(0, 5), [scores]);
 
-  const selectedAvatarData = avatars.find((avatar) => avatar.id === selectedAvatar) ?? avatars[0];
+  const selectedAvatarData =
+    avatarStyles.find((avatar) => avatar.id === selectedAvatar) ?? avatarStyles[0];
   const SelectedAvatarIcon = selectedAvatarData.icon;
+  const canvasStrings = {
+    score: t.game.canvasHud.score,
+    combo: t.game.canvasHud.combo,
+    streak: t.game.canvasHud.streak,
+    hintTouch: t.game.canvasHud.hintTouch,
+    hintDesktop: t.game.canvasHud.hintDesktop,
+  };
 
   useEffect(() => {
     let active = true;
@@ -247,28 +231,27 @@ export const RecruiterGame = () => {
             transition={{ duration: 0.7 }}
           >
             <p className="mb-4 text-sm font-bold uppercase tracking-[0.45em] text-accent-cyan">
-              Hiring?
+              {t.game.eyebrow}
             </p>
             <h1 className="font-display text-5xl font-bold leading-tight text-ink md:text-7xl">
-              Play <span className="text-accent-indigo">Delivery Dash.</span>
+              {t.game.titleLead} <span className="text-accent-indigo">{t.game.titleEmphasis}</span>
             </h1>
             <p className="mt-6 max-w-2xl text-xl font-medium leading-relaxed text-ink-light/80">
-              A retro neon arcade mini-game for recruiters and HR teams. Pick an avatar, normalize your city, then move around the grid to grab engineering skills and dodge the bugs. Build combos, survive, and climb your city leaderboard.
+              {t.game.intro}
             </p>
           </motion.div>
 
           <div className="flex flex-wrap gap-3">
-            <Badge>Canvas arcade engine</Badge>
-            <Badge>City validation</Badge>
-            <Badge>Local leaderboard</Badge>
-            <Badge>Stats ready for Neon</Badge>
+            {t.game.badges.map((badge) => (
+              <Badge key={badge}>{badge}</Badge>
+            ))}
           </div>
 
           <div className="grid gap-6 md:grid-cols-3">
             {[
-              { value: `${scores.length}`, label: "games played" },
-              { value: `${topScores[0]?.score ?? 0}`, label: "best score" },
-              { value: `${cityStats.length}`, label: "cities tracked" },
+              { value: `${scores.length}`, label: t.game.stats.games },
+              { value: `${topScores[0]?.score ?? 0}`, label: t.game.stats.best },
+              { value: `${cityStats.length}`, label: t.game.stats.cities },
             ].map((stat) => (
               <div key={stat.label} className="rounded-[2rem] border border-ink/10 bg-base-alt p-6">
                 <p className="font-display text-4xl font-bold text-ink">{stat.value}</p>
@@ -290,46 +273,44 @@ export const RecruiterGame = () => {
           {stage === "setup" && (
             <div className="space-y-6">
               <div>
-                <h2 className="font-display text-3xl font-bold text-ink">Create your player</h2>
-                <p className="mt-2 font-medium text-ink-light/80">
-                  City input accepts variants like Krakow, Kraków or KRAKOW and stores one canonical city.
-                </p>
+                <h2 className="font-display text-3xl font-bold text-ink">{t.game.setup.title}</h2>
+                <p className="mt-2 font-medium text-ink-light/80">{t.game.setup.subtitle}</p>
               </div>
 
               <label className="block">
                 <span className="mb-2 block text-sm font-bold uppercase tracking-[0.2em] text-ink-light">
-                  Name
+                  {t.game.setup.name}
                 </span>
                 <input
                   value={playerName}
                   onChange={(event) => setPlayerName(event.target.value)}
                   className="w-full rounded-2xl border border-ink/10 bg-surface-dark px-5 py-4 font-bold text-ink outline-none transition-colors focus:border-accent-cyan"
-                  placeholder="Recruiter name"
+                  placeholder={t.game.setup.namePlaceholder}
                 />
               </label>
 
               <label className="block">
                 <span className="mb-2 block text-sm font-bold uppercase tracking-[0.2em] text-ink-light">
-                  Company
+                  {t.game.setup.company}
                 </span>
                 <input
                   value={companyInput}
                   onChange={(event) => setCompanyInput(event.target.value)}
                   className="w-full rounded-2xl border border-ink/10 bg-surface-dark px-5 py-4 font-bold text-ink outline-none transition-colors focus:border-accent-cyan"
-                  placeholder="Company name"
+                  placeholder={t.game.setup.companyPlaceholder}
                 />
               </label>
 
               <label className="block">
                 <span className="mb-2 block text-sm font-bold uppercase tracking-[0.2em] text-ink-light">
-                  City
+                  {t.game.setup.city}
                 </span>
                 <input
                   value={cityInput}
                   onChange={(event) => setCityInput(event.target.value)}
                   list="game-cities"
                   className="w-full rounded-2xl border border-ink/10 bg-surface-dark px-5 py-4 font-bold text-ink outline-none transition-colors focus:border-accent-cyan"
-                  placeholder="Kraków"
+                  placeholder={t.game.setup.cityPlaceholder}
                 />
                 <datalist id="game-cities">
                   {cityOptions.map((city) => (
@@ -338,36 +319,41 @@ export const RecruiterGame = () => {
                 </datalist>
                 <p className={`mt-2 text-sm font-medium ${canonicalCityName.length >= 2 ? "text-accent-cyan" : "text-ink-light/60"}`}>
                   {canonicalCityName.length >= 2
-                    ? `Will be saved as ${canonicalCityName}.`
-                    : "Enter a city to start."}
+                    ? t.game.setup.cityHintSaved.replace("{city}", canonicalCityName)
+                    : t.game.setup.cityHintEnter}
                 </p>
               </label>
 
               <div>
                 <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-ink-light">
-                  Avatar
+                  {t.game.setup.avatar}
                 </p>
                 <div className="grid gap-3 sm:grid-cols-2">
-                  {avatars.map((avatar) => (
-                    <button
-                      key={avatar.id}
-                      type="button"
-                      onClick={() => setSelectedAvatar(avatar.id)}
-                      className={`rounded-2xl border p-4 text-left transition-colors ${
-                        selectedAvatar === avatar.id
-                          ? "border-accent-cyan bg-accent-cyan/10"
-                          : "border-ink/10 bg-surface-dark/70 hover:border-ink/30"
-                      }`}
-                    >
-                      <avatar.icon size={32} style={{ color: avatar.color }} />
-                      <span className="mt-3 block font-display text-lg font-bold text-ink">
-                        {avatar.label}
-                      </span>
-                      <span className="mt-1 block text-sm font-medium text-ink-light/70">
-                        {avatar.description}
-                      </span>
-                    </button>
-                  ))}
+                  {avatarStyles.map((avatar, index) => {
+                    const AvatarIcon = avatar.icon;
+                    const copy = t.game.avatars[index];
+
+                    return (
+                      <button
+                        key={avatar.id}
+                        type="button"
+                        onClick={() => setSelectedAvatar(avatar.id)}
+                        className={`rounded-2xl border p-4 text-left transition-colors ${
+                          selectedAvatar === avatar.id
+                            ? "border-accent-cyan bg-accent-cyan/10"
+                            : "border-ink/10 bg-surface-dark/70 hover:border-ink/30"
+                        }`}
+                      >
+                        <AvatarIcon size={32} style={{ color: avatar.color }} />
+                        <span className="mt-3 block font-display text-lg font-bold text-ink">
+                          {copy.label}
+                        </span>
+                        <span className="mt-1 block text-sm font-medium text-ink-light/70">
+                          {copy.description}
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -379,7 +365,7 @@ export const RecruiterGame = () => {
                 whileHover={canStartGame ? { scale: 1.03 } : undefined}
                 whileTap={canStartGame ? { scale: 0.97 } : undefined}
               >
-                Start the arcade run
+                {t.game.setup.start}
               </motion.button>
             </div>
           )}
@@ -396,10 +382,14 @@ export const RecruiterGame = () => {
                 </p>
               </div>
 
-              <DeliveryDashCanvas accentColor={selectedAvatarData.color} onGameOver={handleGameOver} />
+              <DeliveryDashCanvas
+                accentColor={selectedAvatarData.color}
+                strings={canvasStrings}
+                onGameOver={handleGameOver}
+              />
 
               <p className="text-center text-sm font-medium text-ink-light/70">
-                Move with your mouse, touch, or WASD / arrow keys. Grab skills, dodge bugs, keep the combo alive.
+                {t.game.playing.hint}
               </p>
             </div>
           )}
@@ -409,11 +399,13 @@ export const RecruiterGame = () => {
               <Award className="mx-auto text-accent-cyan" size={56} />
               <div>
                 <p className="text-sm font-bold uppercase tracking-[0.25em] text-ink-light">
-                  Run complete
+                  {t.game.finished.complete}
                 </p>
-                <h2 className="mt-2 font-display text-5xl font-bold text-ink">{lastResult.score} pts</h2>
+                <h2 className="mt-2 font-display text-5xl font-bold text-ink">
+                  {lastResult.score} {t.game.finished.pts}
+                </h2>
                 <p className="mt-3 font-medium text-ink-light/80">
-                  Best combo streak: {lastResult.bestCombo}. Saved locally for now, ready to move into Neon once the backend endpoint is added.
+                  {t.game.finished.bestCombo.replace("{combo}", String(lastResult.bestCombo))}
                 </p>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
@@ -422,14 +414,14 @@ export const RecruiterGame = () => {
                   onClick={startGame}
                   className="rounded-full bg-accent-indigo px-6 py-4 font-bold text-white transition-colors hover:bg-accent-violet"
                 >
-                  Play again
+                  {t.game.finished.playAgain}
                 </button>
                 <button
                   type="button"
                   onClick={resetGame}
                   className="rounded-full border border-ink/20 px-6 py-4 font-bold text-ink transition-colors hover:bg-ink/10"
                 >
-                  Change player
+                  {t.game.finished.changePlayer}
                 </button>
               </div>
             </div>
@@ -439,10 +431,8 @@ export const RecruiterGame = () => {
 
       <section className="mx-auto mt-20 grid max-w-7xl gap-8 lg:grid-cols-[minmax(0,1fr)_380px]">
         <div className="rounded-[3rem] border border-ink/10 bg-base-alt p-6 shadow-2xl">
-          <h2 className="font-display text-3xl font-bold text-ink">City leaderboard</h2>
-          <p className="mt-2 font-medium text-ink-light/80">
-            Best scores grouped by normalized city names.
-          </p>
+          <h2 className="font-display text-3xl font-bold text-ink">{t.game.leaderboard.title}</h2>
+          <p className="mt-2 font-medium text-ink-light/80">{t.game.leaderboard.subtitle}</p>
           <div className="mt-8 h-80">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={cityStats.slice(0, 8)}>
@@ -465,7 +455,7 @@ export const RecruiterGame = () => {
         </div>
 
         <div className="rounded-[3rem] border border-ink/10 bg-base-alt p-6 shadow-2xl">
-          <h2 className="font-display text-3xl font-bold text-ink">Top players</h2>
+          <h2 className="font-display text-3xl font-bold text-ink">{t.game.topPlayers.title}</h2>
           <div className="mt-6 space-y-3">
             {topScores.length > 0 ? (
               topScores.map((record, i) => (
@@ -486,7 +476,7 @@ export const RecruiterGame = () => {
               ))
             ) : (
               <p className="rounded-2xl bg-surface-dark/70 p-4 font-medium text-ink-light/80">
-                No scores yet. Be the first recruiter on the board.
+                {t.game.topPlayers.empty}
               </p>
             )}
           </div>

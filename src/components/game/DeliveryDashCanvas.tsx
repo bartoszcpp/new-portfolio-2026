@@ -1,8 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import type { PointerEvent as ReactPointerEvent } from "react";
 
+type CanvasStrings = {
+  score: string;
+  combo: string;
+  streak: string;
+  hintTouch: string;
+  hintDesktop: string;
+};
+
 type DeliveryDashCanvasProps = {
   accentColor: string;
+  strings: CanvasStrings;
   onGameOver: (result: { score: number; bestCombo: number }) => void;
 };
 
@@ -333,7 +342,6 @@ const updateWorld = (world: GameWorld, dt: number) => {
     world.nextBugAt += Math.max(1.4, 4.5 - world.elapsed * 0.05);
   }
 
-  // Rescue boosts appear now and then (one at a time) to clear the swarm.
   if (world.elapsed >= world.nextPowerAt && world.powerUps.length === 0) {
     spawnPowerUp(world);
     world.nextPowerAt = world.elapsed + randomBetween(16, 22);
@@ -437,6 +445,7 @@ const drawWorld = (
   world: GameWorld,
   accentColor: string,
   isTouch: boolean,
+  strings: CanvasStrings,
 ) => {
   ctx.fillStyle = "#0B1121";
   ctx.fillRect(0, 0, world.width, world.height);
@@ -593,7 +602,7 @@ const drawWorld = (
   ctx.textBaseline = "alphabetic";
   ctx.fillStyle = "#94A3B8";
   ctx.font = "bold 13px Inter, sans-serif";
-  ctx.fillText("SCORE", 24, 34);
+  ctx.fillText(strings.score, 24, 34);
   ctx.fillStyle = "#F8FAFC";
   ctx.font = "bold 34px 'Space Grotesk', sans-serif";
   ctx.fillText(String(world.score), 24, 66);
@@ -601,7 +610,11 @@ const drawWorld = (
   if (world.combo > 1) {
     ctx.fillStyle = accentColor;
     ctx.font = "bold 18px 'Space Grotesk', sans-serif";
-    ctx.fillText(`x${getComboMultiplier(world.combo)} combo · ${world.combo} streak`, 24, 92);
+    ctx.fillText(
+      `x${getComboMultiplier(world.combo)} ${strings.combo} · ${world.combo} ${strings.streak}`,
+      24,
+      92,
+    );
   }
 
   for (let i = 0; i < startingLives; i += 1) {
@@ -617,9 +630,7 @@ const drawWorld = (
     ctx.textAlign = "center";
     ctx.fillStyle = "#F8FAFC";
     ctx.font = "bold 18px 'Space Grotesk', sans-serif";
-    const hint = isTouch
-      ? "Joystick to move · grab skills · gold clears bugs"
-      : "Mouse / WASD to move · grab skills · gold clears bugs";
+    const hint = isTouch ? strings.hintTouch : strings.hintDesktop;
     ctx.fillText(hint, world.width / 2, world.height - 28);
     ctx.globalAlpha = 1;
     ctx.textAlign = "left";
@@ -694,10 +705,11 @@ const VirtualJoystick = ({ accentColor, onChange }: VirtualJoystickProps) => {
   );
 };
 
-export const DeliveryDashCanvas = ({ accentColor, onGameOver }: DeliveryDashCanvasProps) => {
+export const DeliveryDashCanvas = ({ accentColor, strings, onGameOver }: DeliveryDashCanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const worldRef = useRef<GameWorld | null>(null);
   const onGameOverRef = useRef(onGameOver);
+  const stringsRef = useRef(strings);
   const isTouchRef = useRef(false);
   const [isTouch] = useState(() => {
     const coarsePointer =
@@ -707,6 +719,7 @@ export const DeliveryDashCanvas = ({ accentColor, onGameOver }: DeliveryDashCanv
   });
 
   onGameOverRef.current = onGameOver;
+  stringsRef.current = strings;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -767,7 +780,7 @@ export const DeliveryDashCanvas = ({ accentColor, onGameOver }: DeliveryDashCanv
       lastTime = time;
 
       updateWorld(world, dt);
-      drawWorld(context, world, accentColor, isTouchRef.current);
+      drawWorld(context, world, accentColor, isTouchRef.current, stringsRef.current);
 
       if (world.over && !finished) {
         finished = true;

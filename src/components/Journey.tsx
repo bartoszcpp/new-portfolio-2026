@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { motion, useScroll, useSpring } from "motion/react";
 import { BriefcaseBusiness, Code2, Palette, Rocket } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { useTranslation } from "../i18n/LanguageContext";
 
 type AccentName = "accent-cyan" | "accent-indigo" | "accent-violet";
 type MilestoneSide = "left" | "right";
@@ -10,7 +11,6 @@ type Milestone = {
   period: string;
   role: string;
   company: string;
-  description: string;
   tags: readonly string[];
   icon: LucideIcon;
   accent: AccentName;
@@ -34,8 +34,6 @@ const milestones: Milestone[] = [
     period: "12.2020 - Present",
     role: "Senior Software Engineer",
     company: "Sofomo",
-    description:
-      "Leading the development of complex web applications and B2B/B2C e-commerce platforms. Driving technical standards, performing code reviews, and mentoring teams while integrating AI tools into the daily workflow.",
     tags: ["React", "Next.js", "Node.js", "AI Tools"],
     icon: Rocket,
     accent: "accent-cyan",
@@ -45,8 +43,6 @@ const milestones: Milestone[] = [
     period: "06.2020 - 09.2020",
     role: "Front-End Developer",
     company: "KMB Studio",
-    description:
-      "Implemented pixel-perfect landing pages and web apps, integrated CMS solutions and APIs, and focused on performance optimization and SEO.",
     tags: ["React", "Gatsby", "CMS", "SEO"],
     icon: Code2,
     accent: "accent-indigo",
@@ -56,8 +52,6 @@ const milestones: Milestone[] = [
     period: "07.2018 - 06.2020",
     role: "Full-Stack Developer",
     company: "Freelancer",
-    description:
-      "Designed and built custom web solutions from the ground up for individual clients and small businesses, handling both frontend and backend architecture.",
     tags: ["Frontend", "Backend", "API Integration"],
     icon: BriefcaseBusiness,
     accent: "accent-cyan",
@@ -67,8 +61,6 @@ const milestones: Milestone[] = [
     period: "05.2017 - 08.2017",
     role: "Graphic & UI Designer",
     company: "Profit Plus",
-    description:
-      "Crafted high-end marketing and advertising materials, establishing a strong foundation in visual design, typography, and pixel-perfect layouts.",
     tags: ["Adobe Photoshop", "Print & Digital Design"],
     icon: Palette,
     accent: "accent-violet",
@@ -104,6 +96,7 @@ const Tag = ({ label }: TagProps) => (
 );
 
 export const Journey = () => {
+  const t = useTranslation();
   const timelineRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: timelineRef,
@@ -139,10 +132,10 @@ export const Journey = () => {
           transition={{ duration: 0.7 }}
         >
           <p className="mb-4 text-sm font-bold uppercase tracking-[0.45em] text-accent-violet">
-            Journey
+            {t.journey.eyebrow}
           </p>
           <h2 className="font-display text-5xl font-bold leading-tight text-ink md:text-7xl">
-            Evolution of an <span className="text-ink-light">Engineer.</span>
+            {t.journey.titleLead} <span className="text-ink-light">{t.journey.titleEmphasis}</span>
           </h2>
         </motion.div>
 
@@ -190,7 +183,7 @@ export const Journey = () => {
                     </h3>
                     <p className="mt-2 text-lg font-bold text-ink-light">{item.company}</p>
                     <p className="mt-6 text-base font-medium leading-relaxed text-ink-light/80">
-                      {item.description}
+                      {t.journey.descriptions[i]}
                     </p>
                     <div className={`mt-6 flex flex-wrap gap-2 ${isLeft ? "lg:justify-end" : ""}`}>
                       {item.tags.map((tag) => (
