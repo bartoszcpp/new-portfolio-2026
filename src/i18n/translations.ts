@@ -181,6 +181,7 @@ export const en = {
       cityHintEnter: "Enter a city to start.",
       cityHintSaved: "Will be saved as {city}.",
       avatar: "Avatar",
+      fullscreen: "Play in fullscreen",
       start: "Start the arcade run",
     },
     avatars: [
@@ -213,6 +214,8 @@ export const en = {
       streak: "streak",
       hintTouch: "Joystick to move · grab skills · gold clears bugs",
       hintDesktop: "Mouse / WASD to move · grab skills · gold clears bugs",
+      fullscreenEnter: "Enter fullscreen",
+      fullscreenExit: "Exit fullscreen",
     },
     loading: "Loading recruiter game...",
   },
@@ -402,6 +405,7 @@ export const pl: Dictionary = {
       cityHintEnter: "Wpisz miasto, aby zacząć.",
       cityHintSaved: "Zostanie zapisane jako {city}.",
       avatar: "Avatar",
+      fullscreen: "Graj na pełnym ekranie",
       start: "Rozpocznij grę",
     },
     avatars: [
@@ -434,6 +438,8 @@ export const pl: Dictionary = {
       streak: "seria",
       hintTouch: "Joystick steruje · zbieraj technologie · złoto czyści bugi",
       hintDesktop: "Mysz / WASD steruje · zbieraj technologie · złoto czyści bugi",
+      fullscreenEnter: "Pełny ekran",
+      fullscreenExit: "Wyjdź z pełnego ekranu",
     },
     loading: "Ładowanie gry dla rekruterów...",
   },

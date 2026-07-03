@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { PointerEvent as ReactPointerEvent } from "react";
+import { Maximize2, Minimize2 } from "lucide-react";
 
 type CanvasStrings = {
   score: string;
@@ -7,11 +8,15 @@ type CanvasStrings = {
   streak: string;
   hintTouch: string;
   hintDesktop: string;
+  fullscreenEnter: string;
+  fullscreenExit: string;
 };
 
 type DeliveryDashCanvasProps = {
   accentColor: string;
   strings: CanvasStrings;
+  isFullscreen: boolean;
+  onToggleFullscreen: () => void;
   onGameOver: (result: { score: number; bestCombo: number }) => void;
 };
 
@@ -705,7 +710,13 @@ const VirtualJoystick = ({ accentColor, onChange }: VirtualJoystickProps) => {
   );
 };
 
-export const DeliveryDashCanvas = ({ accentColor, strings, onGameOver }: DeliveryDashCanvasProps) => {
+export const DeliveryDashCanvas = ({
+  accentColor,
+  strings,
+  isFullscreen,
+  onToggleFullscreen,
+  onGameOver,
+}: DeliveryDashCanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const worldRef = useRef<GameWorld | null>(null);
   const onGameOverRef = useRef(onGameOver);
@@ -832,25 +843,43 @@ export const DeliveryDashCanvas = ({ accentColor, strings, onGameOver }: Deliver
     world.joystick.active = active;
   };
 
+  const board = isTouch ? mobileBoard : desktopBoard;
+  const aspectRatio = `${board.width} / ${board.height}`;
+  const maxHeight = isTouch ? "64vh" : "86vh";
+  const canvasStyle = isFullscreen
+    ? {
+        aspectRatio,
+        width: "100%",
+        maxHeight,
+        maxWidth: `calc(${maxHeight} * ${board.width} / ${board.height})`,
+      }
+    : { aspectRatio };
+
   return (
-    <div>
-      <canvas
-        ref={canvasRef}
-        role="img"
-        aria-label="Delivery Dash arcade game board"
-        onPointerMove={updatePointer}
-        onPointerDown={updatePointer}
-        onPointerLeave={deactivatePointer}
-        onPointerUp={deactivatePointer}
-        style={{
-          aspectRatio: isTouch
-            ? `${mobileBoard.width} / ${mobileBoard.height}`
-            : `${desktopBoard.width} / ${desktopBoard.height}`,
-        }}
-        className="w-full touch-none rounded-[2rem] border border-ink/10 bg-base"
-      />
+    <div className={isFullscreen ? "flex h-full w-full flex-col items-center justify-center" : ""}>
+      <div className="relative w-full" style={isFullscreen ? { display: "flex", justifyContent: "center" } : undefined}>
+        <canvas
+          ref={canvasRef}
+          role="img"
+          aria-label="Delivery Dash arcade game board"
+          onPointerMove={updatePointer}
+          onPointerDown={updatePointer}
+          onPointerLeave={deactivatePointer}
+          onPointerUp={deactivatePointer}
+          style={canvasStyle}
+          className="w-full touch-none rounded-[2rem] border border-ink/10 bg-base"
+        />
+        <button
+          type="button"
+          onClick={onToggleFullscreen}
+          aria-label={isFullscreen ? strings.fullscreenExit : strings.fullscreenEnter}
+          className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full border border-ink/10 bg-surface-dark/70 text-ink-light backdrop-blur-sm transition-colors hover:bg-surface-dark hover:text-ink"
+        >
+          {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
+        </button>
+      </div>
       {isTouch && (
-        <div className="mt-4 flex justify-start">
+        <div className="mt-4 flex justify-center">
           <VirtualJoystick accentColor={accentColor} onChange={handleJoystickChange} />
         </div>
       )}

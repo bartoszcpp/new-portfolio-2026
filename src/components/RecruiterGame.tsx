@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "motion/react";
-import { Award, Compass, DraftingCompass, Rocket, UserRoundCheck } from "lucide-react";
+import { Award, Compass, DraftingCompass, Maximize2, Rocket, UserRoundCheck } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import {
   Bar,
@@ -130,6 +130,8 @@ export const RecruiterGame = () => {
   const [player, setPlayer] = useState<Player | null>(null);
   const [lastResult, setLastResult] = useState({ score: 0, bestCombo: 0 });
   const [scores, setScores] = useState<ScoreRecord[]>([]);
+  const [wantFullscreen, setWantFullscreen] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const gamePanelRef = useRef<HTMLDivElement>(null);
 
   const canonicalCityName = getCanonicalCityName(cityInput);
@@ -149,6 +151,8 @@ export const RecruiterGame = () => {
     streak: t.game.canvasHud.streak,
     hintTouch: t.game.canvasHud.hintTouch,
     hintDesktop: t.game.canvasHud.hintDesktop,
+    fullscreenEnter: t.game.canvasHud.fullscreenEnter,
+    fullscreenExit: t.game.canvasHud.fullscreenExit,
   };
 
   useEffect(() => {
@@ -179,9 +183,35 @@ export const RecruiterGame = () => {
     window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
   }, [stage]);
 
+  useEffect(() => {
+    const handleFullscreenChange = () => setIsFullscreen(Boolean(document.fullscreenElement));
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
+  }, []);
+
+  const enterFullscreen = () => {
+    const panel = gamePanelRef.current;
+    if (panel?.requestFullscreen && !document.fullscreenElement) {
+      panel.requestFullscreen().catch(() => undefined);
+    }
+  };
+
+  const toggleFullscreen = () => {
+    if (document.fullscreenElement) {
+      document.exitFullscreen().catch(() => undefined);
+    } else {
+      enterFullscreen();
+    }
+  };
+
   const startGame = () => {
     if (!canStartGame) {
       return;
+    }
+
+    if (wantFullscreen) {
+      enterFullscreen();
     }
 
     setPlayer({
@@ -196,6 +226,10 @@ export const RecruiterGame = () => {
   };
 
   const handleGameOver = (result: { score: number; bestCombo: number }) => {
+    if (document.fullscreenElement) {
+      document.exitFullscreen().catch(() => undefined);
+    }
+
     setLastResult(result);
     setStage("finished");
 
@@ -265,7 +299,11 @@ export const RecruiterGame = () => {
 
         <motion.div
           ref={gamePanelRef}
-          className="scroll-mt-24 rounded-[3rem] border border-ink/10 bg-base-alt p-4 shadow-2xl sm:p-6"
+          className={`scroll-mt-24 border border-ink/10 bg-base-alt shadow-2xl ${
+            isFullscreen
+              ? "flex flex-col items-center justify-center overflow-auto p-4"
+              : "rounded-[3rem] p-4 sm:p-6"
+          }`}
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.1 }}
@@ -357,6 +395,19 @@ export const RecruiterGame = () => {
                 </div>
               </div>
 
+              <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-ink/10 bg-surface-dark/70 p-4">
+                <input
+                  type="checkbox"
+                  checked={wantFullscreen}
+                  onChange={(event) => setWantFullscreen(event.target.checked)}
+                  className="h-5 w-5 accent-accent-cyan"
+                />
+                <span className="flex items-center gap-2 font-bold text-ink">
+                  <Maximize2 size={18} className="text-accent-cyan" />
+                  {t.game.setup.fullscreen}
+                </span>
+              </label>
+
               <motion.button
                 type="button"
                 onClick={startGame}
@@ -371,7 +422,7 @@ export const RecruiterGame = () => {
           )}
 
           {stage === "playing" && (
-            <div className="space-y-4">
+            <div className={`w-full space-y-4 ${isFullscreen ? "flex h-full flex-col justify-center" : ""}`}>
               <div className="flex items-center justify-between gap-4">
                 <p className="flex items-center gap-2 text-sm font-bold uppercase tracking-[0.2em] text-ink-light">
                   <SelectedAvatarIcon size={18} style={{ color: selectedAvatarData.color }} />
@@ -385,6 +436,8 @@ export const RecruiterGame = () => {
               <DeliveryDashCanvas
                 accentColor={selectedAvatarData.color}
                 strings={canvasStrings}
+                isFullscreen={isFullscreen}
+                onToggleFullscreen={toggleFullscreen}
                 onGameOver={handleGameOver}
               />
 
