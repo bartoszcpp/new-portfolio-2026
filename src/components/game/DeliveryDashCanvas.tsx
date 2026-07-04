@@ -288,7 +288,7 @@ const updateWorld = (world: GameWorld, dt: number) => {
   if (keys.has("arrowdown") || keys.has("s")) dirY += 1;
 
   const maxSpeed = 470;
-  const joystickMaxSpeed = 260;
+  const joystickMaxSpeed = 380;
   let desiredX = 0;
   let desiredY = 0;
 
@@ -298,11 +298,11 @@ const updateWorld = (world: GameWorld, dt: number) => {
     desiredY = (dirY / length) * maxSpeed;
   } else if (joystick.active) {
     const magnitude = Math.hypot(joystick.x, joystick.y);
-    const deadZone = 0.18;
+    const deadZone = 0.12;
 
     if (magnitude > deadZone) {
       const strength = Math.min(1, (magnitude - deadZone) / (1 - deadZone));
-      const eased = strength * strength;
+      const eased = strength * (0.45 + 0.55 * strength);
       desiredX = (joystick.x / magnitude) * joystickMaxSpeed * eased;
       desiredY = (joystick.y / magnitude) * joystickMaxSpeed * eased;
     }
@@ -845,7 +845,7 @@ export const DeliveryDashCanvas = ({
 
   const board = isTouch ? mobileBoard : desktopBoard;
   const aspectRatio = `${board.width} / ${board.height}`;
-  const maxHeight = isTouch ? "64vh" : "86vh";
+  const maxHeight = isTouch ? "58dvh" : "86vh";
   const canvasStyle = isFullscreen
     ? {
         aspectRatio,

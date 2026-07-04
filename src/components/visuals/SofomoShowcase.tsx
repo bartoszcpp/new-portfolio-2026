@@ -4,7 +4,7 @@ import { Globe } from "lucide-react";
 const disciplines = ["Backend", "Frontend", "Mobile", "DevOps"];
 
 export const SofomoShowcase = () => (
-  <div className="relative w-full overflow-hidden rounded-[3rem] bg-surface-dark p-6 py-10">
+  <div className="relative w-full overflow-hidden rounded-[2rem] bg-surface-dark p-4 py-8 sm:rounded-[3rem] sm:p-6 sm:py-10">
     <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(6,182,212,0.2),transparent_38%),radial-gradient(circle_at_bottom_right,rgba(99,102,241,0.18),transparent_38%)]" />
 
     <motion.div

@@ -12,7 +12,6 @@ export default defineConfig(() => {
       },
     },
     server: {
-      allowedHosts: ['56bc-18-193-168-55.ngrok-free.app'],
       hmr: process.env.DISABLE_HMR !== 'true',
       watch: process.env.DISABLE_HMR === 'true' ? null : {},
       proxy: {

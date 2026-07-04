@@ -67,18 +67,18 @@ export const Navigation = ({ currentRoute, onNavigate }: NavigationProps) => {
 
   return (
     <header className="fixed left-0 right-0 top-0 z-40 px-3 py-3 sm:px-6 sm:py-4 lg:px-12">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between gap-2 rounded-full border border-ink/10 bg-surface-dark/70 px-3 py-2 shadow-2xl backdrop-blur-md sm:px-6 sm:py-3">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between gap-1.5 rounded-full border border-ink/10 bg-surface-dark/70 px-2.5 py-2 shadow-2xl backdrop-blur-md sm:gap-2 sm:px-6 sm:py-3">
         <button
           type="button"
           onClick={() => onNavigate("/")}
-          className="whitespace-nowrap font-display text-base font-bold text-ink transition-colors hover:text-accent-cyan sm:text-lg"
+          className="whitespace-nowrap font-display text-sm font-bold text-ink transition-colors hover:text-accent-cyan sm:text-lg"
         >
           Bartosz Ciąpała
         </button>
 
-        <div className="flex items-center gap-1.5 sm:gap-2">
+        <div className="flex items-center gap-1 sm:gap-2">
           <div
-            className="flex items-center gap-1.5 rounded-full border border-ink/10 bg-ink/5 p-1"
+            className="flex items-center gap-1 rounded-full border border-ink/10 bg-ink/5 p-0.5 sm:gap-1.5 sm:p-1"
             role="group"
             aria-label={t.nav.language}
           >
@@ -92,7 +92,7 @@ export const Navigation = ({ currentRoute, onNavigate }: NavigationProps) => {
                   onClick={() => setLanguage(code)}
                   aria-label={label}
                   aria-pressed={isActive}
-                  className={`h-5 w-[30px] overflow-hidden rounded-[5px] ring-1 ring-inset ring-black/10 transition-all ${
+                  className={`h-[18px] w-[26px] overflow-hidden rounded-[5px] ring-1 ring-inset ring-black/10 transition-all sm:h-5 sm:w-[30px] ${
                     isActive
                       ? "opacity-100"
                       : "opacity-40 grayscale hover:opacity-100 hover:grayscale-0"
@@ -116,7 +116,7 @@ export const Navigation = ({ currentRoute, onNavigate }: NavigationProps) => {
                 type="button"
                 onClick={() => onNavigate(item.route)}
                 aria-label={item.label}
-                className={`flex items-center gap-2 whitespace-nowrap rounded-full px-3 py-2 text-sm font-bold transition-colors sm:px-4 ${
+                className={`flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1.5 text-sm font-bold transition-colors sm:gap-2 sm:px-4 sm:py-2 ${
                   isActive
                     ? "bg-accent-indigo text-white"
                     : "text-ink-light hover:bg-ink/10 hover:text-ink"

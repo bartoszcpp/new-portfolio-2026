@@ -29,9 +29,9 @@ export const Projects = () => {
   const t = useTranslation();
 
   return (
-    <section id="projects" className="py-32 px-6 lg:px-12 max-w-7xl mx-auto space-y-48 scroll-mt-12">
+    <section id="projects" className="py-20 px-4 sm:py-32 sm:px-6 lg:px-12 max-w-7xl mx-auto space-y-24 sm:space-y-48 scroll-mt-12">
       <motion.div
-        className="flex flex-col lg:flex-row gap-16 items-center"
+        className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-center"
         initial={{ opacity: 0, y: 100 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
@@ -64,7 +64,7 @@ export const Projects = () => {
             className="border-accent-indigo text-accent-indigo hover:bg-accent-indigo hover:text-white"
           />
         </div>
-        <div className="flex-1 w-full bg-base-alt p-8 rounded-[3rem] shadow-xl border-4 border-base relative overflow-hidden">
+        <div className="flex-1 w-full bg-base-alt p-4 sm:p-8 rounded-[2rem] sm:rounded-[3rem] shadow-xl border-4 border-base relative overflow-hidden">
           <h3 className="font-display font-bold text-ink text-2xl mb-2">
             {t.projects.workwear.panelTitle}
           </h3>
@@ -74,7 +74,7 @@ export const Projects = () => {
       </motion.div>
 
       <motion.div
-        className="flex flex-col lg:flex-row-reverse gap-16 items-center"
+        className="flex flex-col lg:flex-row-reverse gap-8 lg:gap-16 items-center"
         initial={{ opacity: 0, y: 100 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
@@ -112,7 +112,7 @@ export const Projects = () => {
       </motion.div>
 
       <motion.div
-        className="flex flex-col lg:flex-row gap-16 items-center"
+        className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-center"
         initial={{ opacity: 0, y: 100 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
@@ -150,7 +150,7 @@ export const Projects = () => {
       </motion.div>
       
       <motion.div
-        className="flex flex-col lg:flex-row-reverse gap-16 items-center"
+        className="flex flex-col lg:flex-row-reverse gap-8 lg:gap-16 items-center"
         initial={{ opacity: 0, y: 100 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}

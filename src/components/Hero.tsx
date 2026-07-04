@@ -171,7 +171,10 @@ export const Hero = () => {
                 <h2 id="contact-modal-title" className="pr-12 font-display text-3xl font-bold leading-tight text-ink sm:text-4xl">
                   {t.hero.contact.title}
                 </h2>
-                <p className="mt-4 max-w-sm text-sm font-medium leading-relaxed text-ink-light/80 sm:text-base">
+                <p
+                  className="mt-4 max-w-sm text-sm font-medium leading-relaxed sm:text-base"
+                  style={{ color: "#E2E8F0" }}
+                >
                   {t.hero.contact.subtitle}
                 </p>
 

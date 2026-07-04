@@ -28,12 +28,12 @@ export const FrameworkDiagram = () => {
   const t = useTranslation();
 
   return (
-    <div className="relative w-full overflow-hidden rounded-[3rem] bg-surface-dark p-6 py-12">
+    <div className="relative w-full overflow-hidden rounded-[2rem] bg-surface-dark p-4 py-8 sm:rounded-[3rem] sm:p-6 sm:py-12">
     <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(6,182,212,0.18),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(99,102,241,0.18),transparent_36%)]" />
 
     <div className="relative z-10 flex flex-col items-center">
       <motion.div
-        className="flex w-full max-w-md flex-col items-center rounded-[2rem] border border-accent-cyan/30 bg-base-alt p-6 text-center shadow-[0_0_36px_rgba(6,182,212,0.14)]"
+        className="flex w-full max-w-md flex-col items-center rounded-[2rem] border border-accent-cyan/30 bg-base-alt p-5 text-center shadow-[0_0_36px_rgba(6,182,212,0.14)] sm:p-6"
         initial={{ y: 40, opacity: 0 }}
         whileInView={{ y: 0, opacity: 1 }}
         viewport={{ once: true }}
@@ -49,7 +49,7 @@ export const FrameworkDiagram = () => {
         </p>
       </motion.div>
 
-      <div className="relative my-8 grid w-full gap-4 md:grid-cols-2">
+      <div className="relative my-6 grid w-full gap-4 sm:my-8 md:grid-cols-2">
         <div className="absolute left-1/2 top-0 hidden h-full w-px -translate-x-1/2 bg-gradient-to-b from-accent-cyan to-accent-indigo md:block" />
         {workstreamStyles.map((style, i) => {
           const item = t.framework.workstreams[i];

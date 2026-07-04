@@ -234,7 +234,7 @@ export const pl: Dictionary = {
     language: "Język",
   },
   hero: {
-    titleLine1: "Szybkie i",
+    titleLine1: "Szybkie,",
     titleEmphasis: "niezawodne",
     titleLine3: "aplikacje.",
     intro:
@@ -246,7 +246,7 @@ export const pl: Dictionary = {
     contact: {
       eyebrow: "Kontakt",
       title: "Zbudujmy coś razem.",
-      subtitle: "Napisz lub zadzwoń — telefon, e-mail lub LinkedIn.",
+      subtitle: "Napisz lub zadzwoń - telefon, e-mail lub LinkedIn.",
       close: "Zamknij okno kontaktu",
       phone: "Telefon",
       email: "E-mail",

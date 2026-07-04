@@ -19,7 +19,7 @@ export const WorkwearImpact = () => {
   const t = useTranslation();
 
   return (
-    <div className="relative mt-8 overflow-hidden rounded-[2.5rem] bg-surface-dark p-6">
+    <div className="relative mt-6 overflow-hidden rounded-[2rem] bg-surface-dark p-4 sm:mt-8 sm:rounded-[2.5rem] sm:p-6">
     <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.22),transparent_40%),radial-gradient(circle_at_bottom_left,rgba(6,182,212,0.16),transparent_35%)]" />
     <div className="relative z-10">
       <motion.div

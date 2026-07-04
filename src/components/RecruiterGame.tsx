@@ -131,8 +131,11 @@ export const RecruiterGame = () => {
   const [lastResult, setLastResult] = useState({ score: 0, bestCombo: 0 });
   const [scores, setScores] = useState<ScoreRecord[]>([]);
   const [wantFullscreen, setWantFullscreen] = useState(true);
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isNativeFullscreen, setIsNativeFullscreen] = useState(false);
+  const [immersive, setImmersive] = useState(false);
   const gamePanelRef = useRef<HTMLDivElement>(null);
+
+  const isFullscreen = isNativeFullscreen || immersive;
 
   const canonicalCityName = getCanonicalCityName(cityInput);
   const canStartGame =
@@ -184,22 +187,56 @@ export const RecruiterGame = () => {
   }, [stage]);
 
   useEffect(() => {
-    const handleFullscreenChange = () => setIsFullscreen(Boolean(document.fullscreenElement));
+    const handleFullscreenChange = () => setIsNativeFullscreen(Boolean(document.fullscreenElement));
 
     document.addEventListener("fullscreenchange", handleFullscreenChange);
     return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
   }, []);
 
+  useEffect(() => {
+    if (!immersive) {
+      return undefined;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setImmersive(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [immersive]);
+
   const enterFullscreen = () => {
     const panel = gamePanelRef.current;
-    if (panel?.requestFullscreen && !document.fullscreenElement) {
-      panel.requestFullscreen().catch(() => undefined);
+    if (!panel) {
+      return;
+    }
+
+    if (document.fullscreenEnabled && panel.requestFullscreen) {
+      panel.requestFullscreen().catch(() => setImmersive(true));
+    } else {
+      setImmersive(true);
     }
   };
 
-  const toggleFullscreen = () => {
+  const exitFullscreen = () => {
     if (document.fullscreenElement) {
       document.exitFullscreen().catch(() => undefined);
+    }
+    setImmersive(false);
+  };
+
+  const toggleFullscreen = () => {
+    if (isFullscreen) {
+      exitFullscreen();
     } else {
       enterFullscreen();
     }
@@ -226,9 +263,7 @@ export const RecruiterGame = () => {
   };
 
   const handleGameOver = (result: { score: number; bestCombo: number }) => {
-    if (document.fullscreenElement) {
-      document.exitFullscreen().catch(() => undefined);
-    }
+    exitFullscreen();
 
     setLastResult(result);
     setStage("finished");
@@ -303,7 +338,7 @@ export const RecruiterGame = () => {
             isFullscreen
               ? "flex flex-col items-center justify-center overflow-auto p-4"
               : "rounded-[3rem] p-4 sm:p-6"
-          }`}
+          } ${immersive ? "fixed inset-0 z-50" : ""}`}
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.1 }}

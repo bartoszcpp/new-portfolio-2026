@@ -7,6 +7,37 @@ const cookieName = "lang";
 const cookieMaxAgeSeconds = 60 * 60 * 24 * 365; // one year
 const supportedLanguages: Language[] = ["en", "pl"];
 
+const nonBreakingSpace = "\u00A0";
+const orphanPattern = /(^|[\s([{„"'-])([aiouwzAIOUWZ])[ \t]+/g;
+
+const fixOrphans = (text: string): string =>
+  text.replace(orphanPattern, (_match, prefix: string, letter: string) => `${prefix}${letter}${nonBreakingSpace}`);
+
+const fixDictionaryOrphans = (dictionary: Dictionary): Dictionary => {
+  const transform = (value: unknown): unknown => {
+    if (typeof value === "string") {
+      return fixOrphans(value);
+    }
+
+    if (Array.isArray(value)) {
+      return value.map(transform);
+    }
+
+    if (value !== null && typeof value === "object") {
+      return Object.fromEntries(Object.entries(value).map(([key, entry]) => [key, transform(entry)]));
+    }
+
+    return value;
+  };
+
+  return transform(dictionary) as Dictionary;
+};
+
+const localizedDictionaries: Record<Language, Dictionary> = {
+  en: dictionaries.en,
+  pl: fixDictionaryOrphans(dictionaries.pl),
+};
+
 const isLanguage = (value: string | undefined): value is Language =>
   value !== undefined && supportedLanguages.includes(value as Language);
 
@@ -57,7 +88,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const value = useMemo<LanguageContextValue>(
-    () => ({ language, setLanguage, t: dictionaries[language] }),
+    () => ({ language, setLanguage, t: localizedDictionaries[language] }),
     [language, setLanguage],
   );
 
