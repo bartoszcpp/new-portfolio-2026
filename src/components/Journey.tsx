@@ -32,7 +32,7 @@ type TagProps = {
 const milestones: Milestone[] = [
   {
     period: "12.2020 - Present",
-    role: "Senior Software Engineer",
+    role: "Senior Full-Stack Developer",
     company: "Sofomo",
     tags: ["React", "Next.js", "Node.js", "AI Tools"],
     icon: Rocket,

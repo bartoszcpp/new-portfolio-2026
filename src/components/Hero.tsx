@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Briefcase, Code2, Database, Github, Layout, Linkedin, Mail, Phone, Sparkles, Terminal, X } from "lucide-react";
+import { Briefcase, Code2, Database, FolderGit2, Github, Layout, Linkedin, Mail, Phone, Sparkles, Terminal, X } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import portraitImage from "../../assets/bartosz-portrait.png";
 import { useTranslation } from "../i18n/LanguageContext";
@@ -102,7 +102,7 @@ export const Hero = () => {
               whileTap={{ scale: 0.97 }}
               className="inline-flex w-full items-center justify-center gap-2 px-6 py-4 bg-base-alt text-ink rounded-full font-bold text-lg border-2 border-accent-violet hover:bg-accent-violet hover:text-white transition-colors"
             >
-              <Github size={20} />
+              <FolderGit2 size={20} />
               {t.hero.privateProjectsCta}
             </motion.a>
             <motion.button

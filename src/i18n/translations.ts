@@ -81,7 +81,18 @@ export const en = {
     subtitle:
       "Things I build after hours to explore ideas and sharpen my craft - full projects living on my GitHub.",
     featured: "Side project",
+    wip: "Work in progress",
+    roadmapTitle: "Build roadmap",
+    currentStepLabel: "Now",
     viewCode: "View on GitHub",
+    boardGameSteps: [
+      "JSON rules config",
+      "Headless engine (XState)",
+      "Map graph & pathfinding",
+      "State to UI (Zustand)",
+      "Pixi.js board rendering",
+      "Bot simulation (Web Workers)",
+    ],
     items: [
       {
         title: "Retro Arcade Platform",
@@ -90,6 +101,24 @@ export const en = {
           "A full-stack, real-time multiplayer arcade with classic games like Pong and Bomberman, wrapped in a nostalgic 80s CRT aesthetic built entirely with Tailwind CSS v4.",
           "Both games run on a server-authoritative Node.js engine to prevent cheating: continuous vector physics and paddle collisions for Pong, plus grid-based movement, 3-second bomb fuses and dynamic fire propagation for Bomberman.",
           "Players connect over raw WebSockets for instant matchmaking and in-game chat, with secure JWT + bcrypt auth, an ELO ranking updated after every match, and a live global leaderboard backed by PostgreSQL and Prisma.",
+        ],
+      },
+      {
+        title: "Voxel Earth",
+        subtitle: "3D voxel engine & simulator",
+        paragraphs: [
+          "An interactive, high-performance 3D voxel engine and world simulator built from scratch, with infinite procedural terrain from 2D Perlin noise generating mountains, valleys and geological layers on demand.",
+          "A tick-based cellular-automata physics engine in Go drives realistic water flow, erosion turning dirt into falling sand, and emissive lava that cools into stone on contact with water - all kept fast by an active-blocks event queue that lets idle chunks sleep and cuts CPU load by over 99%.",
+          "State syncs over a custom binary WebSocket protocol with delta compression (a single voxel change costs 7 bytes), while the frontend offloads binary decoding and greedy meshing to Web Workers and renders with Three.js InstancedMesh + face culling to hold a stable 60 FPS.",
+        ],
+      },
+      {
+        title: "Domek na Górnicy",
+        subtitle: "Board game prototype",
+        paragraphs: [
+          "A personal dream project. I want to design my own board game, so I'm building a web-app prototype to playtest the rules quickly - both on desktop and on my phone as a PWA.",
+          "The heart of it is a headless game engine built first, with no UI: rules encoded as JSON, a state machine (XState) driving the turn phases (morning, day, dusk, deep night), and a graph-based map with pathfinding that recalculates movement cost when the purple tiles activate at night.",
+          "On top of that engine I layer a Zustand-connected React UI, a Pixi.js board with animated pawn movement, and Web Worker simulation tools to run thousands of bot games and balance the design. This one is still very much a work in progress.",
         ],
       },
     ],
@@ -327,7 +356,18 @@ export const pl: Dictionary = {
     subtitle:
       "Rzeczy, które buduję po godzinach, żeby eksperymentować z pomysłami i szlifować warsztat - pełne projekty dostępne na moim GitHubie.",
     featured: "Projekt prywatny",
+    wip: "W trakcie budowy",
+    roadmapTitle: "Plan budowy",
+    currentStepLabel: "Teraz",
     viewCode: "Zobacz na GitHubie",
+    boardGameSteps: [
+      "Konfiguracja zasad w JSON",
+      "Silnik headless (XState)",
+      "Graf mapy i wyznaczanie tras",
+      "Stan do UI (Zustand)",
+      "Renderowanie planszy (Pixi.js)",
+      "Symulacje botów (Web Workers)",
+    ],
     items: [
       {
         title: "Retro Arcade Platform",
@@ -336,6 +376,24 @@ export const pl: Dictionary = {
           "Pełnoprawna, wieloosobowa platforma arcade działająca w czasie rzeczywistym, z klasykami takimi jak Pong i Bomberman, ubrana w nostalgiczną estetykę CRT z lat 80. i zbudowana w całości na Tailwind CSS v4.",
           "Obie gry działają na autorytatywnym serwerze w Node.js, co uniemożliwia oszukiwanie: ciągła fizyka wektorowa i kolizje paletek w Pongu oraz ruch po siatce, 3-sekundowe lonty bomb i dynamiczna propagacja ognia w Bombermanie.",
           "Gracze łączą się przez surowe WebSockety - błyskawiczny matchmaking i czat w grze - z bezpiecznym logowaniem JWT + bcrypt, rankingiem ELO aktualizowanym po każdym meczu i globalnym rankingiem opartym na PostgreSQL i Prisma.",
+        ],
+      },
+      {
+        title: "Voxel Earth",
+        subtitle: "Silnik i symulator 3D voxel",
+        paragraphs: [
+          "Interaktywny, wysokowydajny silnik 3D voxel i symulator świata zbudowany od zera, z nieskończonym, proceduralnym terenem generowanym z szumu Perlina 2D - góry, doliny i warstwy geologiczne powstają na żądanie.",
+          "Silnik fizyki oparty na automatach komórkowych, napisany w Go, napędza realistyczny przepływ wody, erozję zamieniającą ziemię w osypujący się piasek oraz świecącą lawę, która po kontakcie z wodą stygnie w kamień - a wszystko utrzymuje tempo dzięki kolejce aktywnych bloków, która usypia bezczynne chunki i tnie obciążenie CPU o ponad 99%.",
+          "Stan synchronizuje autorski binarny protokół WebSocket z kompresją delta (pojedyncza zmiana voxela to 7 bajtów), a frontend przenosi dekodowanie binarne i greedy meshing do Web Workerów i renderuje przez Three.js InstancedMesh + face culling, utrzymując stabilne 60 FPS.",
+        ],
+      },
+      {
+        title: "Domek na Górnicy",
+        subtitle: "Prototyp gry planszowej",
+        paragraphs: [
+          "Mój prywatny, wymarzony projekt. Chcę stworzyć własną grę planszową, więc buduję prototyp w formie aplikacji webowej, żeby szybko testować zasady - zarówno na komputerze, jak i na telefonie jako PWA.",
+          "Sercem jest silnik gry budowany najpierw bez interfejsu: zasady zapisane w JSON, maszyna stanów (XState) kontrolująca fazy tury (poranek, dzień, zmierzch, głęboka noc) oraz mapa oparta na grafie z wyznaczaniem tras, która przelicza koszt ruchu, gdy nocą aktywują się fioletowe pola.",
+          "Na tym silniku nakładam interfejs w React spięty przez Zustand, planszę w Pixi.js z animowanym ruchem pionków oraz narzędzia symulacyjne w Web Workerach, które pozwalają rozegrać tysiące gier botów i wybalansować rozgrywkę. Ten projekt jest wciąż w trakcie tworzenia.",
         ],
       },
     ],

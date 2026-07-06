@@ -6,6 +6,7 @@ import { useTranslation } from "../../i18n/LanguageContext";
 type Brand = {
   name: string;
   color: string;
+  url: string;
 };
 
 type WorkstreamStyle = {
@@ -14,9 +15,9 @@ type WorkstreamStyle = {
 };
 
 const brands: Brand[] = [
-  { name: "Greyson Clothiers", color: "bg-surface-dark" },
-  { name: "UTZ Snacks", color: "bg-accent-indigo" },
-  { name: "Great Garden", color: "bg-ink-light" }
+  { name: "Greyson Clothiers", color: "bg-surface-dark", url: "https://greysonclothiers.com/" },
+  { name: "UTZ Snacks", color: "bg-accent-indigo", url: "https://www.utzsnacks.com/" },
+  { name: "Great Garden", color: "bg-ink-light", url: "https://www.greatgardenplants.com/" }
 ];
 
 const workstreamStyles: WorkstreamStyle[] = [
@@ -83,9 +84,12 @@ export const FrameworkDiagram = () => {
         </p>
         <div className="grid gap-4 sm:grid-cols-3">
           {brands.map((brand, i) => (
-            <motion.div
+            <motion.a
               key={brand.name}
-              className={`${brand.color} flex min-h-28 flex-col items-center justify-center gap-3 rounded-[2rem] border-4 border-base p-5 text-center text-white shadow-lg`}
+              href={brand.url}
+              target="_blank"
+              rel="noreferrer"
+              className={`${brand.color} flex min-h-28 flex-col items-center justify-center gap-3 rounded-[2rem] border-4 border-base p-5 text-center text-white shadow-lg transition-shadow hover:shadow-2xl`}
               initial={{ y: 40, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
               viewport={{ once: true }}
@@ -94,7 +98,7 @@ export const FrameworkDiagram = () => {
             >
               <Store size={30} />
               <h4 className="font-bold leading-tight">{brand.name}</h4>
-            </motion.div>
+            </motion.a>
           ))}
         </div>
       </div>
