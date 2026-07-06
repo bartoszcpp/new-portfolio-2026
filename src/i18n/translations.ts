@@ -15,8 +15,10 @@ export const en = {
     titleLine3: "web apps.",
     intro:
       "Hi, I'm Bartosz Ciąpała - a senior full-stack developer. I build fast, reliable web platforms with clean architecture and a thoughtful, user-friendly interface.",
-    exploreCta: "Explore My Work",
+    exploreCta: "Commercial Projects",
+    privateProjectsCta: "Private Projects",
     contactCta: "Get in Touch",
+    github: "GitHub",
     badgeRole: "Senior Full-Stack",
     badgeStack: "React • Vue • Node • AI",
     contact: {
@@ -71,6 +73,26 @@ export const en = {
         "I focused on smooth motion, a clean responsive layout, and performance, so the page feels as polished as the engineering work it represents.",
       ],
     },
+  },
+  privateProjects: {
+    eyebrow: "Open source",
+    titleLead: "Private",
+    titleEmphasis: "projects.",
+    subtitle:
+      "Things I build after hours to explore ideas and sharpen my craft - full projects living on my GitHub.",
+    featured: "Side project",
+    viewCode: "View on GitHub",
+    items: [
+      {
+        title: "Retro Arcade Platform",
+        subtitle: "Real-time multiplayer",
+        paragraphs: [
+          "A full-stack, real-time multiplayer arcade with classic games like Pong and Bomberman, wrapped in a nostalgic 80s CRT aesthetic built entirely with Tailwind CSS v4.",
+          "Both games run on a server-authoritative Node.js engine to prevent cheating: continuous vector physics and paddle collisions for Pong, plus grid-based movement, 3-second bomb fuses and dynamic fire propagation for Bomberman.",
+          "Players connect over raw WebSockets for instant matchmaking and in-game chat, with secure JWT + bcrypt auth, an ELO ranking updated after every match, and a live global leaderboard backed by PostgreSQL and Prisma.",
+        ],
+      },
+    ],
   },
   workwearImpact: {
     areas: [
@@ -239,8 +261,10 @@ export const pl: Dictionary = {
     titleLine3: "aplikacje.",
     intro:
       "Cześć, jestem Bartosz Ciąpała - senior full-stack developer. Buduję szybkie i niezawodne platformy internetowe z czystą architekturą i przemyślanym, przyjaznym interfejsem.",
-    exploreCta: "Zobacz moje projekty",
+    exploreCta: "Projekty komercyjne",
+    privateProjectsCta: "Projekty prywatne",
     contactCta: "Skontaktuj się",
+    github: "GitHub",
     badgeRole: "Senior Full-Stack",
     badgeStack: "React • Vue • Node • AI",
     contact: {
@@ -295,6 +319,26 @@ export const pl: Dictionary = {
         "Postawiłem na płynne animacje, czysty, responsywny layout i wydajność, żeby strona była tak dopracowana jak inżynieria, którą reprezentuje.",
       ],
     },
+  },
+  privateProjects: {
+    eyebrow: "Open source",
+    titleLead: "Prywatne",
+    titleEmphasis: "projekty.",
+    subtitle:
+      "Rzeczy, które buduję po godzinach, żeby eksperymentować z pomysłami i szlifować warsztat - pełne projekty dostępne na moim GitHubie.",
+    featured: "Projekt prywatny",
+    viewCode: "Zobacz na GitHubie",
+    items: [
+      {
+        title: "Retro Arcade Platform",
+        subtitle: "Gra wieloosobowa w czasie rzeczywistym",
+        paragraphs: [
+          "Pełnoprawna, wieloosobowa platforma arcade działająca w czasie rzeczywistym, z klasykami takimi jak Pong i Bomberman, ubrana w nostalgiczną estetykę CRT z lat 80. i zbudowana w całości na Tailwind CSS v4.",
+          "Obie gry działają na autorytatywnym serwerze w Node.js, co uniemożliwia oszukiwanie: ciągła fizyka wektorowa i kolizje paletek w Pongu oraz ruch po siatce, 3-sekundowe lonty bomb i dynamiczna propagacja ognia w Bombermanie.",
+          "Gracze łączą się przez surowe WebSockety - błyskawiczny matchmaking i czat w grze - z bezpiecznym logowaniem JWT + bcrypt, rankingiem ELO aktualizowanym po każdym meczu i globalnym rankingiem opartym na PostgreSQL i Prisma.",
+        ],
+      },
+    ],
   },
   workwearImpact: {
     areas: [

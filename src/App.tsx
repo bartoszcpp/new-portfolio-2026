@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { Hero } from './components/Hero';
 import { Projects } from './components/Projects';
+import { PrivateProjects } from './components/PrivateProjects';
 import { Leadership } from './components/Leadership';
 import { Journey } from './components/Journey';
 import { Navigation } from './components/Navigation';
@@ -18,6 +19,7 @@ const PortfolioPage = () => (
   <>
     <Hero />
     <Projects />
+    <PrivateProjects />
     <Leadership />
     <Journey />
   </>
