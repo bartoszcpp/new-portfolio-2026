@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Briefcase, Code2, Database, FolderGit2, Github, Layout, Linkedin, Mail, Phone, Sparkles, Terminal, X } from "lucide-react";
+import { Code2, Database, Github, Layout, Linkedin, Mail, Phone, Sparkles, Terminal, X } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import portraitImage from "../../assets/bartosz-portrait.png";
 import { useTranslation } from "../i18n/LanguageContext";
@@ -86,31 +86,13 @@ export const Hero = () => {
           <p className="text-xl md:text-2xl text-ink-light max-w-xl font-medium leading-relaxed">
             {t.hero.intro}
           </p>
-          <div className="grid max-w-xl grid-cols-1 gap-4 pt-4 sm:grid-cols-2">
-            <motion.a
-              href="#projects"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              className="inline-flex w-full items-center justify-center gap-2 px-6 py-4 bg-accent-indigo text-base rounded-full font-bold text-lg shadow-lg hover:bg-accent-violet transition-colors"
-            >
-              <Briefcase size={20} />
-              {t.hero.exploreCta}
-            </motion.a>
-            <motion.a
-              href="#private-projects"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              className="inline-flex w-full items-center justify-center gap-2 px-6 py-4 bg-base-alt text-ink rounded-full font-bold text-lg border-2 border-accent-violet hover:bg-accent-violet hover:text-white transition-colors"
-            >
-              <FolderGit2 size={20} />
-              {t.hero.privateProjectsCta}
-            </motion.a>
+          <div className="grid max-w-2xl grid-cols-1 gap-4 pt-4 sm:grid-cols-2">
             <motion.button
               type="button"
               onClick={() => setIsContactOpen(true)}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="inline-flex w-full items-center justify-center gap-2 px-6 py-4 bg-base-alt text-ink rounded-full font-bold text-lg border-2 border-ink-light hover:bg-base transition-colors"
+              className="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap px-6 py-4 bg-base-alt text-ink rounded-full font-bold text-lg border-2 border-ink-light hover:bg-base transition-colors"
             >
               <Mail size={20} />
               {t.hero.contactCta}
@@ -121,7 +103,7 @@ export const Hero = () => {
               rel="noreferrer"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="inline-flex w-full items-center justify-center gap-2 px-6 py-4 bg-base-alt text-ink rounded-full font-bold text-lg border-2 border-ink-light hover:bg-base transition-colors"
+              className="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap px-6 py-4 bg-base-alt text-ink rounded-full font-bold text-lg border-2 border-ink-light hover:bg-base transition-colors"
             >
               <Github size={20} />
               {t.hero.github}
